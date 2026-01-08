@@ -107,16 +107,22 @@ const App: React.FC = () => {
               // QUESTION BOARD
               <div className="absolute inset-0 flex w-full">
                 {/* Left: Question Display */}
-                <div className="w-1/2 p-[5%] flex flex-col items-center justify-center border-r border-white/5 relative group">
+                <div className="w-1/2 flex flex-col items-center justify-start border-r border-white/5 relative group px-[4vw] py-[4vh]">
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.05)_0%,transparent_70%)] opacity-50" />
-                  <div className="mb-[3vh] px-[2vw] py-[1vh] bg-blue-500/10 border border-blue-500/20 rounded-full z-10 shrink-0">
+                  
+                  {/* Board Badge - Top */}
+                  <div className="mb-[2vh] px-[2vw] py-[1vh] bg-blue-500/10 border border-blue-500/20 rounded-full z-10 shrink-0 backdrop-blur-sm">
                     <span className="text-[1.5vh] font-mono font-black text-blue-300 tracking-[0.3em] uppercase">
                       Board {currentIndex + 1} / {questions.length}
                     </span>
                   </div>
-                  <h1 className="text-[4.8vh] font-black leading-[1.1] text-center drop-shadow-[0_1vh_1vh_rgba(0,0,0,0.5)] z-10 uppercase">
-                    {currentQuestion?.question}
-                  </h1>
+                  
+                  {/* Question Text - Fills Remaining Space */}
+                  <div className="flex-1 flex items-center justify-center w-full z-10">
+                    <h1 className="text-[4.8vh] font-black leading-[1.1] text-center drop-shadow-[0_1vh_1vh_rgba(0,0,0,0.5)] uppercase break-words w-full">
+                        {currentQuestion?.question}
+                    </h1>
+                  </div>
                 </div>
 
                 {/* Right: Answer Cards */}

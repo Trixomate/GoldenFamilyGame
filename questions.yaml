@@ -18,3 +18,14 @@
       percentage: 4
     - text: "Louise"
       percentage: 2
+
+
+- id: 3
+  question: "Petite question ?"
+  answers:
+    - text: "Patricia"
+      percentage: 5
+    - text: "Sylviane"
+      percentage: 4
+    - text: "Louise"
+      percentage: 2
