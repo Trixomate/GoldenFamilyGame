@@ -5,7 +5,6 @@
 
 - id: 1
   type: question
-  variant: 3
   question: "Petite question ?"
   answers:
     - text: "Patricia"
@@ -14,6 +13,16 @@
       percentage: 4
     - text: "Louise"
       percentage: 2
+    - text: "Titouan"
+      percentage: 1
+    - text: "David"
+      percentage: 0
+    - text: "David"
+      percentage: 0
+    - text: "David"
+      percentage: 0
+    - text: "David"
+      percentage: 0
 
 - type: transition
   title: "Notre équipe"
@@ -21,8 +30,18 @@
 
 - id: 2
   type: question
-  variant: 3
   question: "Une chaussette sale est retrouvée en plein milieu du salon, à qui appartient-elle ?"
+  answers:
+    - text: "Hugo"
+      percentage: 8
+    - text: "Titouan"
+      percentage: 3
+    - text: "Pascal"
+      percentage: 1
+
+- id: 3
+  type: question
+  question: "Une chaussette propre est retrouvée en plein milieu du salon, à qui appartient-elle ?"
   answers:
     - text: "Hugo"
       percentage: 8
@@ -35,9 +54,8 @@
   title: "Le Grand Jeu"
   subtitle: "Attention, 6 réponses possibles !"
 
-- id: 3
+- id: 4
   type: question
-  variant: 6
   question: "Citez quelque chose que l'on trouve dans un sac à main"
   answers:
     - text: "Clés"

@@ -7,7 +7,6 @@ export interface Answer {
 export interface Question {
   type?: 'question';
   id?: number;
-  variant?: 3 | 6;
   question: string;
   answers: Answer[];
 }

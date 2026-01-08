@@ -1,12 +1,12 @@
 
 import { useState, useEffect, useCallback } from 'react';
-import yaml from 'js-yaml';
 import { GameItem } from '../types';
+import { loadQuestions } from '../services/yamlLoader';
 
 export const useGameLogic = () => {
   const [items, setItems] = useState<GameItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(-1);
-  const [revealed, setRevealed] = useState<boolean[]>([false, false, false, false, false, false, false, false]); // Increased buffer
+  const [revealed, setRevealed] = useState<boolean[]>([false, false, false, false, false, false, false, false]); // Buffer for up to 8 answers
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -17,26 +17,21 @@ export const useGameLogic = () => {
   const [strikesA, setStrikesA] = useState([false, false, false]);
   const [strikesB, setStrikesB] = useState([false, false, false]);
 
-  // Load Data
+  // Load Data via Service
   useEffect(() => {
-    const loadItems = async () => {
+    const initGame = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('./questions.yaml');
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const yamlText = await response.text();
-        const data = yaml.load(yamlText) as GameItem[];
-        
+        const data = await loadQuestions();
         setItems(data);
         setError(null);
       } catch (err) {
-        console.error("Failed to load questions:", err);
         setError("Could not load the survey data. Please ensure questions.yaml is available.");
       } finally {
         setIsLoading(false);
       }
     };
-    loadItems();
+    initGame();
   }, []);
 
   // Actions
