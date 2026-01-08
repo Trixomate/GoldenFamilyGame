@@ -4,11 +4,8 @@ import yaml from '@rollup/plugin-yaml'
 
 export default defineConfig({
   plugins: [
-    react(),
-    yaml()
+    react(), 
+    yaml() 
   ],
-  base: '/GoldenFamilyGame/',
-  build: {
-    outDir: 'dist',
-  }
+  base: '/GoldenFamilyGame/', 
 })
