@@ -1,0 +1,74 @@
+
+- type: transition
+  title: "Round 1"
+  subtitle: "Let's start easy!"
+
+- type: question
+  question: "Name something people often lose"
+  answers:
+    - text: "Keys"
+      percentage: 35
+    - text: "Phone"
+      percentage: 25
+    - text: "TV Remote"
+      percentage: 15
+    - text: "Patience"
+      percentage: 10
+
+- type: transition
+  title: "Round 2"
+  subtitle: "Maximum Difficulty"
+
+- type: question
+  question: "Name a popular pizza topping"
+  answers:
+    - text: "Pepperoni"
+      percentage: 28
+    - text: "Extra Cheese"
+      percentage: 20
+    - text: "Mushrooms"
+      percentage: 14
+    - text: "Sausage"
+      percentage: 12
+    - text: "Onions"
+      percentage: 8
+    - text: "Bacon"
+      percentage: 7
+    - text: "Peppers"
+      percentage: 6
+    - text: "Pineapple"
+      percentage: 5
+
+- type: transition
+  title: "Round 3"
+  subtitle: "The Top Three"
+
+- type: question
+  question: "Name a primary color"
+  answers:
+    - text: "Red"
+      percentage: 45
+    - text: "Blue"
+      percentage: 35
+    - text: "Yellow"
+      percentage: 20
+
+- type: transition
+  title: "Final Round"
+  subtitle: "Double Points!"
+
+- type: question
+  question: "Name something you do right before sleep"
+  answers:
+    - text: "Brush Teeth"
+      percentage: 32
+    - text: "Check Phone"
+      percentage: 28
+    - text: "Put on PJs"
+      percentage: 15
+    - text: "Read a Book"
+      percentage: 10
+    - text: "Set Alarm"
+      percentage: 8
+    - text: "Kiss Goodnight"
+      percentage: 7
