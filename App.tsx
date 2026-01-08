@@ -71,6 +71,52 @@ const App: React.FC = () => {
     setRevealed(newRevealed);
   };
 
+  // Helper to get specialized button styles
+  const getButtonStyles = (idx: number) => {
+    switch (idx) {
+      case 0: // Brighter Gold
+        return {
+          gradient: 'from-yellow-400 via-amber-500 to-amber-700',
+          border: 'border-yellow-200/50',
+          shadow: 'hover:shadow-[0_0_40px_rgba(251,191,36,0.5)]',
+          numText: 'text-yellow-100/40',
+          revealedGradient: 'from-yellow-300 via-yellow-500 to-amber-600',
+          revealedBorder: 'border-yellow-200',
+          textColor: 'text-amber-950'
+        };
+      case 1: // Brighter Silver
+        return {
+          gradient: 'from-slate-100 via-slate-400 to-slate-600',
+          border: 'border-white/60',
+          shadow: 'hover:shadow-[0_0_40px_rgba(226,232,240,0.5)]',
+          numText: 'text-white/40',
+          revealedGradient: 'from-white via-slate-200 to-slate-400',
+          revealedBorder: 'border-white',
+          textColor: 'text-slate-900'
+        };
+      case 2: // Brighter Bronze
+        return {
+          gradient: 'from-orange-400 via-orange-600 to-orange-900',
+          border: 'border-orange-300/40',
+          shadow: 'hover:shadow-[0_0_40px_rgba(234,88,12,0.5)]',
+          numText: 'text-orange-100/30',
+          revealedGradient: 'from-orange-300 via-orange-500 to-orange-700',
+          revealedBorder: 'border-orange-200',
+          textColor: 'text-orange-950'
+        };
+      default:
+        return {
+          gradient: 'from-blue-500 via-blue-700 to-blue-900',
+          border: 'border-white/20',
+          shadow: 'hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]',
+          numText: 'text-blue-200/20',
+          revealedGradient: 'from-blue-400 via-blue-500 to-blue-600',
+          revealedBorder: 'border-blue-300',
+          textColor: 'text-blue-950'
+        };
+    }
+  };
+
   // Keyboard navigation support
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -153,50 +199,54 @@ const App: React.FC = () => {
 
           {/* Right Panel: Interactive Answer Slots */}
           <div className="w-1/2 p-16 flex flex-col justify-center space-y-8 bg-black/10">
-            {currentQuestion?.answers.map((answer, idx) => (
-              <div key={idx} className="relative h-24 perspective-1000 group">
-                {/* Unrevealed Button */}
-                <button
-                  onClick={() => toggleReveal(idx)}
-                  className={`
-                    absolute inset-0 w-full h-full flex items-center justify-between px-10
-                    rounded-2xl border-2 transition-all duration-700 transform-gpu cursor-pointer
-                    ${revealed[idx] 
-                      ? 'rotate-x-180 opacity-0 pointer-events-none scale-90' 
-                      : 'bg-gradient-to-b from-blue-600 via-blue-700 to-blue-900 border-white/20 hover:border-white/40 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] hover:-translate-y-1 active:scale-95 shadow-xl shadow-black/40'
-                    }
-                  `}
-                >
-                  <div className="flex items-center space-x-6">
-                    <span className="text-4xl font-black italic text-blue-200/20 group-hover:text-blue-200/40 transition-colors">{idx + 1}</span>
-                    <div className="w-16 h-1.5 bg-white/10 rounded-full group-hover:bg-white/20 transition-colors"></div>
-                  </div>
-                  <div className="w-12 h-12 rounded-full border-4 border-blue-400/20 flex items-center justify-center bg-blue-500/10">
-                    <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></div>
-                  </div>
-                </button>
+            {currentQuestion?.answers.map((answer, idx) => {
+              const styles = getButtonStyles(idx);
+              return (
+                <div key={idx} className="relative h-24 perspective-1000 group">
+                  {/* Unrevealed Button */}
+                  <button
+                    onClick={() => toggleReveal(idx)}
+                    className={`
+                      absolute inset-0 w-full h-full flex items-center justify-between px-10
+                      rounded-2xl border-2 transition-all duration-700 transform-gpu cursor-pointer shadow-xl shadow-black/40
+                      bg-gradient-to-b ${styles.gradient} ${styles.border} ${styles.shadow}
+                      ${revealed[idx] 
+                        ? 'rotate-x-180 opacity-0 pointer-events-none scale-90' 
+                        : 'hover:-translate-y-1 active:scale-95'
+                      }
+                    `}
+                  >
+                    <div className="flex items-center space-x-6">
+                      <span className={`text-4xl font-black italic transition-colors ${styles.numText} group-hover:text-white/20`}>{idx + 1}</span>
+                      <div className="w-16 h-1.5 bg-white/10 rounded-full group-hover:bg-white/20 transition-colors"></div>
+                    </div>
+                    <div className="w-12 h-12 rounded-full border-4 border-white/10 flex items-center justify-center bg-white/5">
+                      <div className="w-2 h-2 rounded-full bg-white/40 animate-pulse"></div>
+                    </div>
+                  </button>
 
-                {/* Revealed Answer Panel */}
-                <div className={`
-                  absolute inset-0 w-full h-full flex items-center justify-between
-                  bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-600 rounded-2xl border-4 border-amber-300 shadow-2xl
-                  transition-all duration-700 transform-gpu backface-hidden overflow-hidden
-                  ${revealed[idx] ? 'rotate-x-0 opacity-100 scale-100' : 'rotate-x-[-110deg] opacity-0 scale-75'}
-                `}>
-                  <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)', backgroundSize: '10px 10px' }}></div>
-                  
-                  <span className="relative z-10 pl-10 text-2xl md:text-3xl font-black text-[#1e1b4b] uppercase tracking-tighter drop-shadow-sm">
-                    {answer.text}
-                  </span>
-                  
-                  <div className="relative z-10 h-full flex items-center px-8 bg-black/10 border-l-2 border-amber-400/30">
-                    <span className="text-4xl md:text-5xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
-                      {answer.percentage}
+                  {/* Revealed Answer Panel */}
+                  <div className={`
+                    absolute inset-0 w-full h-full flex items-center justify-between
+                    bg-gradient-to-r ${styles.revealedGradient} rounded-2xl border-4 ${styles.revealedBorder} shadow-2xl
+                    transition-all duration-700 transform-gpu backface-hidden overflow-hidden
+                    ${revealed[idx] ? 'rotate-x-0 opacity-100 scale-100' : 'rotate-x-[-110deg] opacity-0 scale-75'}
+                  `}>
+                    <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)', backgroundSize: '10px 10px' }}></div>
+                    
+                    <span className={`relative z-10 pl-10 text-2xl md:text-3xl font-black ${styles.textColor} uppercase tracking-tighter drop-shadow-sm`}>
+                      {answer.text}
                     </span>
+                    
+                    <div className="relative z-10 h-full flex items-center px-8 bg-black/10 border-l-2 border-white/20">
+                      <span className="text-4xl md:text-5xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                        {answer.percentage}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
         </div>
