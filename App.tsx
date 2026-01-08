@@ -10,7 +10,8 @@ import { GameHeader } from './components/layout/GameHeader';
 import { GameFooter } from './components/layout/GameFooter';
 import { IntroSlide } from './components/slides/IntroSlide';
 import { TransitionSlide } from './components/slides/TransitionSlide';
-import { QuestionBoard } from './components/slides/QuestionBoard';
+import { QuestionBoard3 } from './components/slides/QuestionBoard3';
+import { QuestionBoard6 } from './components/slides/QuestionBoard6';
 import { EndSlide } from './components/slides/EndSlide';
 
 const App: React.FC = () => {
@@ -66,13 +67,23 @@ const App: React.FC = () => {
           {isTransition && currentItem && <TransitionSlide item={currentItem as Transition} />}
           
           {isQuestion && currentItem && (
-            <QuestionBoard 
-              item={currentItem as Question} 
-              revealed={revealed} 
-              onReveal={actions.toggleReveal}
-              boardNumber={questionNumber}
-              totalBoards={totalQuestions}
-            />
+            (currentItem as Question).variant === 6 ? (
+              <QuestionBoard6
+                item={currentItem as Question} 
+                revealed={revealed} 
+                onReveal={actions.toggleReveal}
+                boardNumber={questionNumber}
+                totalBoards={totalQuestions}
+              />
+            ) : (
+              <QuestionBoard3 
+                item={currentItem as Question} 
+                revealed={revealed} 
+                onReveal={actions.toggleReveal}
+                boardNumber={questionNumber}
+                totalBoards={totalQuestions}
+              />
+            )
           )}
           
           {isEnd && (

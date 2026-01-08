@@ -5,6 +5,7 @@
 
 - id: 1
   type: question
+  variant: 3
   question: "Petite question ?"
   answers:
     - text: "Patricia"
@@ -20,6 +21,7 @@
 
 - id: 2
   type: question
+  variant: 3
   question: "Une chaussette sale est retrouvée en plein milieu du salon, à qui appartient-elle ?"
   answers:
     - text: "Hugo"
@@ -29,13 +31,24 @@
     - text: "Pascal"
       percentage: 1
 
+- type: transition
+  title: "Le Grand Jeu"
+  subtitle: "Attention, 6 réponses possibles !"
+
 - id: 3
   type: question
-  question: "Un concours de cuisine est organisé. quelle personne a le plus de chance de gagner ?"
+  variant: 6
+  question: "Citez quelque chose que l'on trouve dans un sac à main"
   answers:
-    - text: "Patricia"
+    - text: "Clés"
+      percentage: 35
+    - text: "Téléphone"
+      percentage: 28
+    - text: "Portefeuille"
+      percentage: 15
+    - text: "Maquillage"
+      percentage: 10
+    - text: "Mouchoirs"
+      percentage: 7
+    - text: "Parfum"
       percentage: 5
-    - text: "Sylviane"
-      percentage: 4
-    - text: "Louise"
-      percentage: 2

@@ -1,5 +1,5 @@
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Answer } from '../types';
 
 interface AnswerCardProps {
@@ -7,6 +7,7 @@ interface AnswerCardProps {
   answer: Answer;
   revealed: boolean;
   onReveal: () => void;
+  heightClass?: string;
 }
 
 const STYLES = [
@@ -39,21 +40,22 @@ const STYLES = [
   }
 ];
 
+// Neutral Style for ranks 4-6 (Black/Gray but distinct from Silver)
 const DEFAULT_STYLE = {
-  gradient: 'from-blue-600 via-blue-700 to-blue-900',
-  border: 'border-blue-400/70',
-  shadow: 'hover:shadow-[0_0_3vh_rgba(59,130,246,0.25)]',
-  numText: 'text-white/95',
-  revealedGradient: 'from-blue-400 via-blue-500 to-blue-600',
-  revealedBorder: 'border-blue-300',
-  textColor: 'text-blue-950'
+  gradient: 'from-neutral-700 via-neutral-800 to-neutral-950',
+  border: 'border-neutral-600/50',
+  shadow: 'hover:shadow-[0_0_3vh_rgba(163,163,163,0.2)]',
+  numText: 'text-neutral-200',
+  revealedGradient: 'from-neutral-300 via-neutral-400 to-neutral-500',
+  revealedBorder: 'border-neutral-400',
+  textColor: 'text-neutral-900'
 };
 
-export const AnswerCard: React.FC<AnswerCardProps> = ({ index, answer, revealed, onReveal }) => {
+export const AnswerCard: React.FC<AnswerCardProps> = ({ index, answer, revealed, onReveal, heightClass = "h-[15vh]" }) => {
   const s = STYLES[index] || DEFAULT_STYLE;
 
   return (
-    <div className="relative h-[15vh] perspective-1000 group shrink-0">
+    <div className={`relative ${heightClass} perspective-1000 group shrink-0`}>
       {/* Front of Card (Hidden Answer) */}
       <button 
         onClick={onReveal} 
@@ -73,10 +75,10 @@ export const AnswerCard: React.FC<AnswerCardProps> = ({ index, answer, revealed,
       {/* Back of Card (Revealed Answer) */}
       <div className={`absolute inset-0 w-full h-full flex items-center justify-between bg-gradient-to-r ${s.revealedGradient} rounded-[1.5vh] border-[0.5vh] ${s.revealedBorder} shadow-2xl transition-all duration-700 transform-gpu backface-hidden overflow-hidden ${revealed ? 'rotate-x-0 opacity-100 scale-100' : 'rotate-x-[-110deg] opacity-0 scale-75'}`}>
         <div className="absolute inset-0 opacity-15 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #000 1.2px, transparent 1.2px)', backgroundSize: '12px 12px' }} />
-        <span className={`relative z-10 pl-[3vw] text-[4vh] font-black ${s.textColor} uppercase tracking-tighter drop-shadow-sm`}>
+        <span className={`relative z-10 pl-[3vw] text-[4vh] font-black ${s.textColor} uppercase tracking-tighter drop-shadow-sm truncate pr-2 flex-1`}>
           {answer.text}
         </span>
-        <div className="relative z-10 h-full flex items-center px-[2vw] bg-black/15 border-l-[0.3vh] border-white/30">
+        <div className="relative z-10 h-full w-[14vh] flex items-center justify-center bg-black/15 border-l-[0.3vh] border-white/30 shrink-0">
           <span className="text-[6vh] font-black text-white drop-shadow-[0_0.5vh_1vh_rgba(0,0,0,0.6)]">
             {answer.percentage}
           </span>
