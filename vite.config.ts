@@ -1,9 +1,14 @@
-import path from 'path';
-import { defineConfig, loadEnv } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 import yaml from '@rollup/plugin-yaml'
 
 export default defineConfig({
-  plugins: [react(), yaml()],
+  plugins: [
+    react(),
+    yaml()
+  ],
   base: '/GoldenFamilyGame/',
+  build: {
+    outDir: 'dist',
+  }
 })
