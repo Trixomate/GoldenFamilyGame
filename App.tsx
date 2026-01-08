@@ -65,7 +65,7 @@ const App: React.FC = () => {
         setCurrentIndex(prev => prev + 1);
         resetStrikes();
         setIsTransitioning(false);
-      }, 500); // Increased to 500ms to match CSS transition-all duration-500
+      }, 500); // Match CSS transition-all duration-500
     }
   };
 
@@ -186,7 +186,6 @@ const App: React.FC = () => {
         
         {/* Navigation Header - Fixed Height h-28 */}
         <div className="h-28 flex items-center justify-between px-10 bg-black/40 backdrop-blur-2xl border-b border-white/10 z-20 shrink-0">
-          {/* Left: Fixed Width Container for Symmetry */}
           <div className="w-44 flex justify-start">
             <button 
               onClick={handlePrev}
@@ -198,86 +197,70 @@ const App: React.FC = () => {
             </button>
           </div>
 
-          {/* Center: Brand Title (Hidden on Intro Slide) */}
           <div className="flex flex-col items-center">
              {currentIndex >= 0 ? (
                <div className="flex items-center justify-center space-x-3">
-                  <SparklesIcon className="w-5 h-5 text-yellow-400 animate-pulse" />
-                  <h2 className="text-4xl md:text-5xl font-black italic tracking-tighter uppercase text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400 drop-shadow-[0_5px_15px_rgba(59,130,246,0.3)]">
-                    Family <span className="text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)]">Freud</span>
+                  <h2 className="text-4xl md:text-5xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400 drop-shadow-[0_5px_15px_rgba(59,130,246,0.3)]">
+                    FAMILLE en <span className="text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)]">OR</span>
                   </h2>
-                  <SparklesIcon className="w-5 h-5 text-yellow-400 animate-pulse" />
                </div>
              ) : (
-               /* Keep space to preserve symmetry even if invisible */
                <div className="w-44 h-8"></div>
              )}
           </div>
 
-          {/* Right: Fixed Width Container for Symmetry */}
           <div className="w-44 flex justify-end">
             <button 
               onClick={handleNext}
               disabled={currentIndex === questions.length - 1}
               className={`group flex items-center space-x-3 px-5 py-2.5 rounded-xl transition-all duration-300 ${currentIndex === questions.length - 1 ? 'opacity-20 cursor-not-allowed' : 'hover:bg-white/10 active:scale-95 border border-white/5 bg-blue-500/5'}`}
             >
-              <span className="font-bold tracking-widest text-xs uppercase">{currentIndex === -1 ? 'Start Game' : 'Next'}</span>
+              <span className="font-bold tracking-widest text-xs uppercase">{currentIndex === -1 ? 'Commencer' : 'Next'}</span>
               <ChevronRightIcon className="w-6 h-6 transition-transform group-hover:translate-x-1" />
             </button>
           </div>
         </div>
 
-        {/* Slide Content Container */}
-        <div className={`flex-1 flex overflow-hidden transition-all duration-500 transform ${isTransitioning ? 'opacity-0 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'}`}>
+        {/* Content Area - Flex Column */}
+        <div className="flex-1 flex flex-col overflow-hidden">
           
-          {currentIndex === -1 ? (
-            /* --- INTRO SLIDE --- */
-            <div className="w-full h-full flex flex-col items-center justify-center p-20 text-center relative">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.1)_0%,transparent_70%)] animate-pulse"></div>
-              
-              <div className="z-10 animate-in fade-in zoom-in duration-1000">
-                <div className="inline-flex items-center space-x-3 mb-6 px-6 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full">
-                  <PlayIcon className="w-4 h-4 text-blue-400" />
-                  <span className="text-xs font-black text-blue-300 tracking-[0.3em] uppercase">Now Airing</span>
+          {/* Transition Wrapper - Question / Intro Content */}
+          <div className={`flex-1 relative overflow-hidden transition-all duration-500 transform ${isTransitioning ? 'opacity-0 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'}`}>
+            
+            {currentIndex === -1 ? (
+              /* --- INTRO SLIDE --- */
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-20 text-center relative">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.1)_0%,transparent_70%)] animate-pulse"></div>
+                <div className="z-10 animate-in fade-in zoom-in duration-1000">
+                  <h1 className="text-7xl md:text-9xl font-black tracking-tighter italic leading-none mb-4 drop-shadow-[0_20px_20px_rgba(0,0,0,0.8)] text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400">
+                    FAMILLE en <span className="text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)]">OR</span>
+                  </h1>
+                  <p className="text-xl md:text-2xl text-zinc-400 font-light max-w-2xl mx-auto mb-12 tracking-wide">
+                    Welcome to the ultimate survey challenge. 
+                    Does the family know what the <span className="text-white font-bold italic">world</span> thinks?
+                  </p>
+                  <button 
+                    onClick={handleNext}
+                    className="group relative inline-flex items-center justify-center px-12 py-5 font-black text-xl tracking-[0.2em] uppercase bg-gradient-to-r from-blue-600 to-blue-400 rounded-2xl shadow-2xl hover:shadow-blue-500/20 hover:scale-105 active:scale-95 transition-all duration-300 overflow-hidden"
+                  >
+                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                    <span className="relative z-10">Commencer</span>
+                    <ChevronRightIcon className="relative z-10 w-6 h-6 ml-3 transition-transform group-hover:translate-x-2" />
+                  </button>
                 </div>
-                
-                <h1 className="text-7xl md:text-9xl font-black tracking-tighter uppercase italic leading-none mb-4 drop-shadow-[0_20px_20px_rgba(0,0,0,0.8)] text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400">
-                  Family <span className="text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)]">Freud</span>
-                </h1>
-                
-                <p className="text-xl md:text-2xl text-zinc-400 font-light max-w-2xl mx-auto mb-12 tracking-wide">
-                  Welcome to the ultimate survey challenge. 
-                  Does the family know what the <span className="text-white font-bold italic">world</span> thinks?
-                </p>
-
-                <button 
-                  onClick={handleNext}
-                  className="group relative inline-flex items-center justify-center px-12 py-5 font-black text-xl tracking-[0.2em] uppercase bg-gradient-to-r from-blue-600 to-blue-400 rounded-2xl shadow-2xl hover:shadow-blue-500/20 hover:scale-105 active:scale-95 transition-all duration-300 overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                  <span className="relative z-10">Enter Studio</span>
-                  <ChevronRightIcon className="relative z-10 w-6 h-6 ml-3 transition-transform group-hover:translate-x-2" />
-                </button>
+                <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-blue-500/20 blur-[100px] rounded-full"></div>
               </div>
-
-              {/* Decorative elements for intro */}
-              <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-blue-500/20 blur-[100px] rounded-full"></div>
-            </div>
-          ) : (
-            /* --- GAME SLIDE --- */
-            <div className="w-full h-full flex flex-col relative">
-              <div className="flex-1 flex w-full overflow-hidden">
+            ) : (
+              /* --- GAME PANELS --- */
+              <div className="absolute inset-0 flex w-full">
                 {/* Left Panel: Question Display */}
                 <div className="w-1/2 p-12 flex flex-col items-center justify-center border-r border-white/5 relative group">
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.05)_0%,transparent_70%)] opacity-50"></div>
-                  
-                  {/* Board counter above question */}
                   <div className="mb-6 px-5 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full z-10 animate-in fade-in slide-in-from-top-4 duration-700 shrink-0">
                     <span className="text-xs font-mono font-black text-blue-300 tracking-[0.3em] uppercase">
                       Board {currentIndex + 1} / {questions.length}
                     </span>
                   </div>
-
                   <h1 className="text-3xl md:text-4xl lg:text-5xl font-black leading-[1.1] text-center drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] z-10 animate-in fade-in slide-in-from-left-8 duration-700">
                     {currentQuestion?.question}
                   </h1>
@@ -289,45 +272,23 @@ const App: React.FC = () => {
                     const styles = getButtonStyles(idx);
                     return (
                       <div key={idx} className="relative h-20 perspective-1000 group shrink-0">
-                        {/* Unrevealed Button */}
                         <button
                           onClick={() => toggleReveal(idx)}
-                          className={`
-                            absolute inset-0 w-full h-full flex items-center justify-between px-8
-                            rounded-xl border-2 transition-all duration-700 transform-gpu cursor-pointer shadow-xl shadow-black/60
-                            bg-gradient-to-b ${styles.gradient} ${styles.border} ${styles.shadow}
-                            ${revealed[idx] 
-                              ? 'rotate-x-180 opacity-0 pointer-events-none scale-90' 
-                              : 'hover:-translate-y-1 active:scale-95'
-                            }
-                          `}
+                          className={`absolute inset-0 w-full h-full flex items-center justify-between px-8 rounded-xl border-2 transition-all duration-700 transform-gpu cursor-pointer shadow-xl shadow-black/60 bg-gradient-to-b ${styles.gradient} ${styles.border} ${styles.shadow} ${revealed[idx] ? 'rotate-x-180 opacity-0 pointer-events-none scale-90' : 'hover:-translate-y-1 active:scale-95'}`}
                         >
                           <div className="flex items-center space-x-6">
-                            <span className={`text-3xl font-black italic transition-all drop-shadow-md ${styles.numText} group-hover:text-white`}>
-                              {idx + 1}
-                            </span>
+                            <span className={`text-3xl font-black italic transition-all drop-shadow-md ${styles.numText} group-hover:text-white`}>{idx + 1}</span>
                             <div className="w-12 h-1 bg-white/30 rounded-full group-hover:bg-white/50 transition-colors"></div>
                           </div>
                           <div className="w-10 h-10 rounded-full border-2 border-white/50 flex items-center justify-center bg-white/15 shadow-[inset_0_0_10px_rgba(255,255,255,0.1)]">
                             <div className="w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.9)] animate-pulse"></div>
                           </div>
                         </button>
-
-                        {/* Revealed Answer Panel */}
-                        <div className={`
-                          absolute inset-0 w-full h-full flex items-center justify-between
-                          bg-gradient-to-r ${styles.revealedGradient} rounded-xl border-4 ${styles.revealedBorder} shadow-2xl
-                          transition-all duration-700 transform-gpu backface-hidden overflow-hidden
-                          ${revealed[idx] ? 'rotate-x-0 opacity-100 scale-100' : 'rotate-x-[-110deg] opacity-0 scale-75'}
-                        `}>
+                        <div className={`absolute inset-0 w-full h-full flex items-center justify-between bg-gradient-to-r ${styles.revealedGradient} rounded-xl border-4 ${styles.revealedBorder} shadow-2xl transition-all duration-700 transform-gpu backface-hidden overflow-hidden ${revealed[idx] ? 'rotate-x-0 opacity-100 scale-100' : 'rotate-x-[-110deg] opacity-0 scale-75'}`}>
                           <div className="absolute inset-0 opacity-15 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #000 1.2px, transparent 1.2px)', backgroundSize: '12px 12px' }}></div>
-                          <span className={`relative z-10 pl-8 text-xl md:text-2xl font-black ${styles.textColor} uppercase tracking-tighter drop-shadow-sm`}>
-                            {answer.text}
-                          </span>
+                          <span className={`relative z-10 pl-8 text-xl md:text-2xl font-black ${styles.textColor} uppercase tracking-tighter drop-shadow-sm`}>{answer.text}</span>
                           <div className="relative z-10 h-full flex items-center px-6 bg-black/15 border-l-2 border-white/30">
-                            <span className="text-3xl md:text-4xl font-black text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.6)]">
-                              {answer.percentage}
-                            </span>
+                            <span className="text-3xl md:text-4xl font-black text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.6)]">{answer.percentage}</span>
                           </div>
                         </div>
                       </div>
@@ -335,82 +296,61 @@ const App: React.FC = () => {
                   })}
                 </div>
               </div>
+            )}
+          </div>
 
-              {/* --- SCORE BAR - Unified Height h-28 --- */}
-              <div className="h-28 bg-black/60 border-t border-white/10 backdrop-blur-md px-12 flex items-center justify-between z-10 shrink-0">
-                {/* Family A Controls */}
-                <div className="flex items-center gap-10">
-                  <div className="flex flex-col items-center">
-                    <span className="text-xl font-black text-blue-400 uppercase tracking-[0.2em] mb-1.5 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">Family A</span>
-                    <div className="flex items-center space-x-3 bg-zinc-900/90 rounded-xl border border-white/10 p-1.5 shadow-2xl">
-                      <button onClick={() => setScoreA(s => Math.max(0, s - 1))} className="p-1.5 hover:bg-white/10 rounded-lg text-zinc-400 hover:text-white transition-all active:scale-90">
-                        <MinusIcon className="w-5 h-5" />
-                      </button>
-                      <span className="text-4xl font-black text-white w-20 text-center tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
-                        {scoreA}
-                      </span>
-                      <button onClick={() => setScoreA(s => s + 1)} className="p-1.5 hover:bg-white/10 rounded-lg text-zinc-400 hover:text-white transition-all active:scale-90">
-                        <PlusIcon className="w-5 h-5" />
-                      </button>
-                    </div>
-                  </div>
-                  <div className="flex space-x-2 self-end pb-1.5">
-                    {strikesA.map((active, i) => (
-                      <button
-                        key={i}
-                        onClick={() => toggleStrikeA(i)}
-                        className={`w-11 h-11 rounded-full border-2 transition-all duration-300 flex items-center justify-center shadow-xl
-                          ${active 
-                            ? 'bg-red-600/95 border-red-400 shadow-red-900/50 scale-105 ring-4 ring-red-500/20' 
-                            : 'bg-zinc-800/60 border-zinc-700/40 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 hover:scale-105'
-                          }
-                        `}
-                      >
-                        <XMarkIcon className={`w-8 h-8 font-black ${active ? 'text-white' : 'text-zinc-700'}`} strokeWidth={4} />
-                      </button>
-                    ))}
+          {/* Static Score Bar - Outside Transition Wrapper */}
+          {currentIndex >= 0 && (
+            <div className="h-28 bg-black/60 border-t border-white/10 backdrop-blur-md px-12 flex items-center justify-between z-10 shrink-0">
+              {/* Family A Controls */}
+              <div className="flex items-center gap-10">
+                <div className="flex flex-col items-center">
+                  <span className="text-xl font-black text-blue-400 uppercase tracking-[0.2em] mb-1.5 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">Family A</span>
+                  <div className="flex items-center space-x-3 bg-zinc-900/90 rounded-xl border border-white/10 p-1.5 shadow-2xl">
+                    <button onClick={() => setScoreA(s => Math.max(0, s - 1))} className="p-1.5 hover:bg-white/10 rounded-lg text-zinc-400 hover:text-white transition-all active:scale-90">
+                      <MinusIcon className="w-5 h-5" />
+                    </button>
+                    <span className="text-4xl font-black text-white w-20 text-center tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">{scoreA}</span>
+                    <button onClick={() => setScoreA(s => s + 1)} className="p-1.5 hover:bg-white/10 rounded-lg text-zinc-400 hover:text-white transition-all active:scale-90">
+                      <PlusIcon className="w-5 h-5" />
+                    </button>
                   </div>
                 </div>
+                <div className="flex space-x-2 self-end pb-1.5">
+                  {strikesA.map((active, i) => (
+                    <button key={i} onClick={() => toggleStrikeA(i)} className={`w-11 h-11 rounded-full border-2 transition-all duration-300 flex items-center justify-center shadow-xl ${active ? 'bg-red-600/95 border-red-400 shadow-red-900/50 scale-105 ring-4 ring-red-500/20' : 'bg-zinc-800/60 border-zinc-700/40 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 hover:scale-105'}`}>
+                      <XMarkIcon className={`w-8 h-8 font-black ${active ? 'text-white' : 'text-zinc-700'}`} strokeWidth={4} />
+                    </button>
+                  ))}
+                </div>
+              </div>
 
-                <div className="w-[1px] h-16 bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
+              <div className="w-[1px] h-16 bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
 
-                {/* Family B Controls */}
-                <div className="flex items-center gap-10">
-                  <div className="flex space-x-2 self-end pb-1.5">
-                    {strikesB.map((active, i) => (
-                      <button
-                        key={i}
-                        onClick={() => toggleStrikeB(i)}
-                        className={`w-11 h-11 rounded-full border-2 transition-all duration-300 flex items-center justify-center shadow-xl
-                          ${active 
-                            ? 'bg-red-600/95 border-red-400 shadow-red-900/50 scale-105 ring-4 ring-red-500/20' 
-                            : 'bg-zinc-800/60 border-zinc-700/40 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 hover:scale-105'
-                          }
-                        `}
-                      >
-                        <XMarkIcon className={`w-8 h-8 font-black ${active ? 'text-white' : 'text-zinc-700'}`} strokeWidth={4} />
-                      </button>
-                    ))}
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <span className="text-xl font-black text-blue-400 uppercase tracking-[0.2em] mb-1.5 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">Family B</span>
-                    <div className="flex items-center space-x-3 bg-zinc-900/90 rounded-xl border border-white/10 p-1.5 shadow-2xl">
-                      <button onClick={() => setScoreB(s => Math.max(0, s - 1))} className="p-1.5 hover:bg-white/10 rounded-lg text-zinc-400 hover:text-white transition-all active:scale-90">
-                        <MinusIcon className="w-5 h-5" />
-                      </button>
-                      <span className="text-4xl font-black text-white w-20 text-center tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
-                        {scoreB}
-                      </span>
-                      <button onClick={() => setScoreB(s => s + 1)} className="p-1.5 hover:bg-white/10 rounded-lg text-zinc-400 hover:text-white transition-all active:scale-90">
-                        <PlusIcon className="w-5 h-5" />
-                      </button>
-                    </div>
+              {/* Family B Controls */}
+              <div className="flex items-center gap-10">
+                <div className="flex space-x-2 self-end pb-1.5">
+                  {strikesB.map((active, i) => (
+                    <button key={i} onClick={() => toggleStrikeB(i)} className={`w-11 h-11 rounded-full border-2 transition-all duration-300 flex items-center justify-center shadow-xl ${active ? 'bg-red-600/95 border-red-400 shadow-red-900/50 scale-105 ring-4 ring-red-500/20' : 'bg-zinc-800/60 border-zinc-700/40 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 hover:scale-105'}`}>
+                      <XMarkIcon className={`w-8 h-8 font-black ${active ? 'text-white' : 'text-zinc-700'}`} strokeWidth={4} />
+                    </button>
+                  ))}
+                </div>
+                <div className="flex flex-col items-center">
+                  <span className="text-xl font-black text-blue-400 uppercase tracking-[0.2em] mb-1.5 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">Family B</span>
+                  <div className="flex items-center space-x-3 bg-zinc-900/90 rounded-xl border border-white/10 p-1.5 shadow-2xl">
+                    <button onClick={() => setScoreB(s => Math.max(0, s - 1))} className="p-1.5 hover:bg-white/10 rounded-lg text-zinc-400 hover:text-white transition-all active:scale-90">
+                      <MinusIcon className="w-5 h-5" />
+                    </button>
+                    <span className="text-4xl font-black text-white w-20 text-center tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">{scoreB}</span>
+                    <button onClick={() => setScoreB(s => s + 1)} className="p-1.5 hover:bg-white/10 rounded-lg text-zinc-400 hover:text-white transition-all active:scale-90">
+                      <PlusIcon className="w-5 h-5" />
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           )}
-
         </div>
 
         {/* Ambient Visual Decorations */}
