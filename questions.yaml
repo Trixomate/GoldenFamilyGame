@@ -1,0 +1,30 @@
+
+- id: 1
+  question: "Nommez quelque chose que les gens perdent souvent."
+  answers:
+    - text: "Clé"
+      percentage: 45
+    - text: "Porte Feuille"
+      percentage: 22
+    - text: "Téléphone"
+      percentage: 18
+
+- id: 2
+  question: "Quelle est la première chose que font les gens lorsqu'ils se réveillent ?"
+  answers:
+    - text: "Check Phone"
+      percentage: 52
+    - text: "Drink Coffee"
+      percentage: 28
+    - text: "Stretch"
+      percentage: 12
+
+- id: 3
+  question: "Nommez une garniture de pizza populaire."
+  answers:
+    - text: "Pepperoni"
+      percentage: 65
+    - text: "Champignon"
+      percentage: 15
+    - text: "Extra Cheese"
+      percentage: 10

@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon, SparklesIcon, ExclamationTriangleIcon, PlayIcon, PlusIcon, MinusIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import yaml from 'js-yaml';
 
 interface Answer {
   text: string;
@@ -27,19 +28,20 @@ const App: React.FC = () => {
   const [strikesA, setStrikesA] = useState([false, false, false]);
   const [strikesB, setStrikesB] = useState([false, false, false]);
 
-  // Load the questions from the external JSON file
+  // Load the questions from the external YAML file
   useEffect(() => {
     const loadQuestions = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('./questions.json');
+        const response = await fetch('./questions.yaml');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const data = await response.json();
+        const yamlText = await response.text();
+        const data = yaml.load(yamlText) as Question[];
         setQuestions(data);
         setError(null);
       } catch (err) {
         console.error("Failed to load questions:", err);
-        setError("Could not load the survey data. Please ensure questions.json is available.");
+        setError("Could not load the survey data. Please ensure questions.yaml is available.");
       } finally {
         setIsLoading(false);
       }
