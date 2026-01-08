@@ -1,12 +1,12 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import yaml from 'js-yaml';
-import { Question } from '../types';
+import { GameItem, End } from '../types';
 
 export const useGameLogic = () => {
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [items, setItems] = useState<GameItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(-1);
-  const [revealed, setRevealed] = useState<boolean[]>([false, false, false]);
+  const [revealed, setRevealed] = useState<boolean[]>([false, false, false, false, false, false, false, false]); // Increased buffer
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -19,14 +19,22 @@ export const useGameLogic = () => {
 
   // Load Data
   useEffect(() => {
-    const loadQuestions = async () => {
+    const loadItems = async () => {
       try {
         setIsLoading(true);
         const response = await fetch('./questions.yaml');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const yamlText = await response.text();
-        const data = yaml.load(yamlText) as Question[];
-        setQuestions(data);
+        const data = yaml.load(yamlText) as GameItem[];
+        
+        // Hardcode the End slide logic here since it was removed from YAML
+        const endSlide: End = {
+          type: 'end',
+          title: "Terminé",
+          subtitle: "Merci d'avoir joué"
+        };
+
+        setItems([...data, endSlide]);
         setError(null);
       } catch (err) {
         console.error("Failed to load questions:", err);
@@ -35,7 +43,7 @@ export const useGameLogic = () => {
         setIsLoading(false);
       }
     };
-    loadQuestions();
+    loadItems();
   }, []);
 
   // Actions
@@ -45,21 +53,21 @@ export const useGameLogic = () => {
   };
 
   const handleNext = useCallback(() => {
-    if (currentIndex < questions.length - 1) {
+    if (currentIndex < items.length - 1) {
       setIsTransitioning(true);
-      setRevealed([false, false, false]);
+      setRevealed(new Array(8).fill(false));
       setTimeout(() => {
         setCurrentIndex(prev => prev + 1);
         resetStrikes();
         setIsTransitioning(false);
       }, 500);
     }
-  }, [currentIndex, questions.length]);
+  }, [currentIndex, items.length]);
 
   const handlePrev = useCallback(() => {
     if (currentIndex >= 0) {
       setIsTransitioning(true);
-      setRevealed([false, false, false]);
+      setRevealed(new Array(8).fill(false));
       setTimeout(() => {
         setCurrentIndex(prev => prev - 1);
         resetStrikes();
@@ -90,20 +98,24 @@ export const useGameLogic = () => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' || e.key === 'Enter') handleNext();
       if (e.key === 'ArrowLeft') handlePrev();
-      if (currentIndex >= 0) {
-        if (e.key === '1') toggleReveal(0);
-        if (e.key === '2') toggleReveal(1);
-        if (e.key === '3') toggleReveal(2);
+      
+      const currentItem = currentIndex >= 0 ? items[currentIndex] : null;
+      if (currentItem && (!currentItem.type || currentItem.type === 'question')) {
+         // Key 1-8 for answers (assuming max 8 answers for safety)
+         const num = parseInt(e.key);
+         if (!isNaN(num) && num >= 1 && num <= 8) {
+            toggleReveal(num - 1);
+         }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex, handleNext, handlePrev, toggleReveal]);
+  }, [currentIndex, items, handleNext, handlePrev, toggleReveal]);
 
   return {
-    questions,
+    items,
     currentIndex,
-    currentQuestion: currentIndex >= 0 ? questions[currentIndex] : null,
+    currentItem: currentIndex >= 0 ? items[currentIndex] : null,
     revealed,
     isTransitioning,
     isLoading,

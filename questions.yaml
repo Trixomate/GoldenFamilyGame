@@ -1,5 +1,25 @@
 
+- type: transition
+  title: "Simple"
+  subtitle: "Pour se chauffer"
+
 - id: 1
+  type: question
+  question: "Petite question ?"
+  answers:
+    - text: "Patricia"
+      percentage: 5
+    - text: "Sylviane"
+      percentage: 4
+    - text: "Louise"
+      percentage: 2
+
+- type: transition
+  title: "Notre équipe"
+  subtitle: "C'est maintenant qu'on découvre vos réponses"
+
+- id: 2
+  type: question
   question: "Une chaussette sale est retrouvée en plein milieu du salon, à qui appartient-elle ?"
   answers:
     - text: "Hugo"
@@ -9,19 +29,9 @@
     - text: "Pascal"
       percentage: 1
 
-- id: 2
-  question: "Un concours de cuisine est organisé. quelle personne a le plus de chance de gagner ?"
-  answers:
-    - text: "Patricia"
-      percentage: 5
-    - text: "Sylviane"
-      percentage: 4
-    - text: "Louise"
-      percentage: 2
-
-
 - id: 3
-  question: "Petite question ?"
+  type: question
+  question: "Un concours de cuisine est organisé. quelle personne a le plus de chance de gagner ?"
   answers:
     - text: "Patricia"
       percentage: 5
