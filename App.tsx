@@ -74,42 +74,51 @@ const App: React.FC = () => {
   // Helper to get specialized button styles
   const getButtonStyles = (idx: number) => {
     switch (idx) {
-      case 0: // Brighter Gold
+      case 0: // Gold Theme
         return {
-          gradient: 'from-yellow-400 via-amber-500 to-amber-700',
-          border: 'border-yellow-200/50',
-          shadow: 'hover:shadow-[0_0_40px_rgba(251,191,36,0.5)]',
-          numText: 'text-yellow-100/40',
-          revealedGradient: 'from-yellow-300 via-yellow-500 to-amber-600',
-          revealedBorder: 'border-yellow-200',
+          // Reduced dimming by shifting from amber-800/900 to amber-700/800
+          gradient: 'from-amber-700 via-amber-800 to-[#3d2500]',
+          // Border kept bright
+          border: 'border-yellow-400/70',
+          shadow: 'hover:shadow-[0_0_40px_rgba(251,191,36,0.35)]',
+          // Number text bright white
+          numText: 'text-white/95',
+          revealedGradient: 'from-yellow-400 via-yellow-500 to-amber-600',
+          revealedBorder: 'border-yellow-300',
           textColor: 'text-amber-950'
         };
-      case 1: // Brighter Silver
+      case 1: // Silver Theme
         return {
-          gradient: 'from-slate-100 via-slate-400 to-slate-600',
-          border: 'border-white/60',
-          shadow: 'hover:shadow-[0_0_40px_rgba(226,232,240,0.5)]',
-          numText: 'text-white/40',
+          // Reduced dimming by shifting from slate-700/800 to slate-600/700
+          gradient: 'from-slate-600 via-slate-700 to-[#2c3e50]',
+          // Border kept bright
+          border: 'border-slate-100/70',
+          shadow: 'hover:shadow-[0_0_40px_rgba(226,232,240,0.35)]',
+          // Number text bright white
+          numText: 'text-white/95',
           revealedGradient: 'from-white via-slate-200 to-slate-400',
           revealedBorder: 'border-white',
           textColor: 'text-slate-900'
         };
-      case 2: // Brighter Bronze
+      case 2: // Bronze Theme
         return {
-          gradient: 'from-orange-400 via-orange-600 to-orange-900',
-          border: 'border-orange-300/40',
-          shadow: 'hover:shadow-[0_0_40px_rgba(234,88,12,0.5)]',
-          numText: 'text-orange-100/30',
-          revealedGradient: 'from-orange-300 via-orange-500 to-orange-700',
-          revealedBorder: 'border-orange-200',
+          // Reduced dimming by shifting from 632a0d to 8b4513 range
+          gradient: 'from-[#8b4513] via-[#632a0d] to-[#3d1a08]',
+          // Border kept bright
+          border: 'border-orange-400/70',
+          shadow: 'hover:shadow-[0_0_40px_rgba(234,88,12,0.35)]',
+          // Number text bright white
+          numText: 'text-white/95',
+          revealedGradient: 'from-orange-400 via-orange-500 to-orange-700',
+          revealedBorder: 'border-orange-300',
           textColor: 'text-orange-950'
         };
       default:
         return {
-          gradient: 'from-blue-500 via-blue-700 to-blue-900',
-          border: 'border-white/20',
-          shadow: 'hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]',
-          numText: 'text-blue-200/20',
+          gradient: 'from-blue-800 via-blue-900 to-black',
+          border: 'border-blue-400/70',
+          shadow: 'hover:shadow-[0_0_30px_rgba(59,130,246,0.25)]',
+          numText: 'text-white/95',
           revealedGradient: 'from-blue-400 via-blue-500 to-blue-600',
           revealedBorder: 'border-blue-300',
           textColor: 'text-blue-950'
@@ -151,7 +160,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#020617] text-white flex flex-col items-center justify-center p-4 overflow-hidden font-sans">
-      {/* Game Stage Container: Maintains 16:9 aspect ratio */}
+      {/* Game Stage Container */}
       <div className="w-full max-w-6xl aspect-video bg-gradient-to-br from-[#0f172a] via-[#1e1b4b] to-[#020617] rounded-3xl shadow-[0_0_80px_rgba(30,27,75,0.4)] border border-white/10 flex flex-col relative overflow-hidden ring-1 ring-white/5">
         
         {/* Navigation Header */}
@@ -208,7 +217,7 @@ const App: React.FC = () => {
                     onClick={() => toggleReveal(idx)}
                     className={`
                       absolute inset-0 w-full h-full flex items-center justify-between px-10
-                      rounded-2xl border-2 transition-all duration-700 transform-gpu cursor-pointer shadow-xl shadow-black/40
+                      rounded-2xl border-2 transition-all duration-700 transform-gpu cursor-pointer shadow-2xl shadow-black/60
                       bg-gradient-to-b ${styles.gradient} ${styles.border} ${styles.shadow}
                       ${revealed[idx] 
                         ? 'rotate-x-180 opacity-0 pointer-events-none scale-90' 
@@ -217,11 +226,14 @@ const App: React.FC = () => {
                     `}
                   >
                     <div className="flex items-center space-x-6">
-                      <span className={`text-4xl font-black italic transition-colors ${styles.numText} group-hover:text-white/20`}>{idx + 1}</span>
-                      <div className="w-16 h-1.5 bg-white/10 rounded-full group-hover:bg-white/20 transition-colors"></div>
+                      <span className={`text-4xl font-black italic transition-all drop-shadow-md ${styles.numText} group-hover:text-white`}>
+                        {idx + 1}
+                      </span>
+                      <div className="w-16 h-1.5 bg-white/30 rounded-full group-hover:bg-white/50 transition-colors"></div>
                     </div>
-                    <div className="w-12 h-12 rounded-full border-4 border-white/10 flex items-center justify-center bg-white/5">
-                      <div className="w-2 h-2 rounded-full bg-white/40 animate-pulse"></div>
+                    {/* Brighter right icon/indicator */}
+                    <div className="w-12 h-12 rounded-full border-2 border-white/50 flex items-center justify-center bg-white/15 shadow-[inset_0_0_15px_rgba(255,255,255,0.1)]">
+                      <div className="w-3 h-3 rounded-full bg-white shadow-[0_0_15px_rgba(255,255,255,0.9)] animate-pulse"></div>
                     </div>
                   </button>
 
@@ -232,14 +244,14 @@ const App: React.FC = () => {
                     transition-all duration-700 transform-gpu backface-hidden overflow-hidden
                     ${revealed[idx] ? 'rotate-x-0 opacity-100 scale-100' : 'rotate-x-[-110deg] opacity-0 scale-75'}
                   `}>
-                    <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)', backgroundSize: '10px 10px' }}></div>
+                    <div className="absolute inset-0 opacity-15 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #000 1.2px, transparent 1.2px)', backgroundSize: '12px 12px' }}></div>
                     
                     <span className={`relative z-10 pl-10 text-2xl md:text-3xl font-black ${styles.textColor} uppercase tracking-tighter drop-shadow-sm`}>
                       {answer.text}
                     </span>
                     
-                    <div className="relative z-10 h-full flex items-center px-8 bg-black/10 border-l-2 border-white/20">
-                      <span className="text-4xl md:text-5xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                    <div className="relative z-10 h-full flex items-center px-8 bg-black/15 border-l-2 border-white/30">
+                      <span className="text-4xl md:text-5xl font-black text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.6)]">
                         {answer.percentage}
                       </span>
                     </div>
@@ -261,11 +273,11 @@ const App: React.FC = () => {
       {/* Footer Info */}
       <div className="mt-8 flex items-center space-x-12 opacity-30">
         <div className="flex items-center space-x-2">
-            <kbd className="px-2 py-1 bg-white/10 rounded text-[10px] font-mono">ARROWS</kbd>
+            <kbd className="px-2 py-1 bg-white/10 rounded text-[10px] font-mono text-white">ARROWS</kbd>
             <span className="text-[10px] font-bold tracking-widest uppercase">NAVIGATE</span>
         </div>
         <div className="flex items-center space-x-2">
-            <kbd className="px-2 py-1 bg-white/10 rounded text-[10px] font-mono">1-3</kbd>
+            <kbd className="px-2 py-1 bg-white/10 rounded text-[10px] font-mono text-white">1-3</kbd>
             <span className="text-[10px] font-bold tracking-widest uppercase">REVEAL</span>
         </div>
       </div>

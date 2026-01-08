@@ -11,7 +11,7 @@
   },
   {
     "id": 2,
-    "question": "What is the first thing people do when they wake up?",
+    "question": "Quelle est la première chose que font les gens lorsqu'ils se réveillent ?",
     "answers": [
       { "text": "Check Phone", "percentage": 52 },
       { "text": "Drink Coffee", "percentage": 28 },
