@@ -16,15 +16,16 @@ export const QuestionBoard: React.FC<QuestionBoardProps> = ({ item, revealed, on
   const safeCount = Math.max(1, answerCount);
 
   // --- Layout Calculation (Percentage based) ---
-  const DEFAULT_PADDING_PERCENT = 2.5; // Base percentage for gaps
-  const TOPBOTTOM_PADDING_PERCENT = 5; // Base percentage for gaps
+  const DEFAULT_PADDING_PERCENT = 10; // Base percentage for gaps
+  const TOPBOTTOM_PADDING_PERCENT = DEFAULT_PADDING_PERCENT / 2; // Base percentage for gaps
   const USABLE_SPACE = 100 - TOPBOTTOM_PADDING_PERCENT;
   
   // 1. Calculate Gap Percentage
-  const gapPercent = DEFAULT_PADDING_PERCENT;
+  const gapPercent = DEFAULT_PADDING_PERCENT / safeCount;
 
   // 2. Calculate Button Height Percentage
-  const totalGapSpace = Math.max(0, safeCount - 1) * gapPercent;
+  //const totalGapSpace = Math.max(0, safeCount - 1) * gapPercent;
+  const totalGapSpace = safeCount * gapPercent;
   const rawButtonHeight = (USABLE_SPACE - totalGapSpace) / safeCount;
 
   // Clamp height to aesthetic limits (e.g. max 30% of the screen height for a single button)
@@ -33,7 +34,7 @@ export const QuestionBoard: React.FC<QuestionBoardProps> = ({ item, revealed, on
   return (
     <div className="absolute inset-0 flex w-full">
       {/* Left: Question Display */}
-      <div className="w-1/2 flex flex-col items-center justify-start border-r border-white/5 relative group px-[4vw] py-[4vh]">
+      <div className="w-1/3 flex flex-col items-center justify-start border-r border-white/5 relative group px-[4vw] py-[4vh]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.05)_0%,transparent_70%)] opacity-50" />
         
         <div className="mb-[2vh] px-[2vw] py-[1vh] bg-blue-500/10 border border-blue-500/20 rounded-full z-10 shrink-0 backdrop-blur-sm">
@@ -51,7 +52,7 @@ export const QuestionBoard: React.FC<QuestionBoardProps> = ({ item, revealed, on
 
       {/* Right: Answer Cards */}
       <div 
-        className="w-1/2 px-[5%] h-full flex flex-col justify-center bg-black/10 overflow-hidden"
+        className="w-2/3 px-[5%] h-full flex flex-col justify-center bg-black/10 overflow-hidden"
         style={{ gap: `${gapPercent}%` }}
       >
         {item.answers?.map((answer, idx) => (

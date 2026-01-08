@@ -1,3 +1,4 @@
+
 # PROJECT MASTER CONTEXT: Golden Family (Famille en Or)
 
 ## 1. Overview
@@ -9,7 +10,9 @@
 *   **Core:** React 19
 *   **Build Tool:** Vite (inferred)
 *   **Language:** TypeScript
-*   **Styling:** Tailwind CSS
+*   **Styling:** 
+    *   Tailwind CSS
+    *   **CSS Container Queries** (`cqh` units) for fluid typography in cards.
 *   **Data Source:** YAML (`questions.yaml`) parsed via `js-yaml`
 *   **Icons:** Heroicons
 *   **Animation:** CSS Transitions / Tailwind utilities
@@ -17,23 +20,23 @@
 ## 3. Architecture
 
 ### 3.1. Current Status
-The project is currently a hybrid of a clean Game application and a leftover "Gemini Artifact Generator" template.
+The project has successfully transitioned to a Clean Architecture. The legacy Gemini/Artifact generator code has been purged. The application now features a robust, adaptable UI that fits strictly within a 16:9 container.
 *   **Active Core:** `App.tsx`, `useGameLogic.ts`, `components/slides/*`, `components/layout/*`.
-*   **Dead Code (To Remove):** `services/gemini.ts`, `components/Hero.tsx`, `components/InputArea.tsx`, `components/LivePreview.tsx`, `components/CreationHistory.tsx`, and related PDF/Gemini logic.
+*   **Data Layer:** `services/yamlLoader.ts`.
 
-### 3.2. Target Directory Structure (Clean Architecture)
+### 3.2. Directory Structure
 ```text
 /
 ├── public/
-│   └── questions.yaml       # Data source
+│   └── questions.yaml       # Data source (Demo data available)
 ├── src/
 │   ├── assets/              # Static assets
 │   ├── components/
-│   │   ├── game/            # Specific Game Logic Components (Board, Card)
+│   │   ├── game/            # Game Logic Components (AnswerCard, TeamControl)
 │   │   ├── layout/          # Layout Shells (Header, Footer, Container)
-│   │   ├── slides/          # Top-level Slide Views (Intro, Transition, End)
-│   │   └── ui/              # Generic UI (Status screens, buttons - primitive)
-│   ├── hooks/               # Custom Logic (useGameLogic)
+│   │   ├── slides/          # Top-level Slide Views (Intro, Transition, QuestionBoard, End)
+│   │   └── ui/              # Generic UI (Status screens, primitive loaders)
+│   ├── hooks/               # Custom Logic (useGameLogic - Fat Hook Pattern)
 │   ├── services/            # Data fetching (YamlLoader)
 │   ├── types/               # TypeScript Definitions
 │   ├── App.tsx
@@ -48,33 +51,38 @@ The project is currently a hybrid of a clean Game application and a leftover "Ge
 2.  **Transition Slide:** Displays the category/theme of the next round.
 3.  **Question Board:**
     *   Displays the question.
-    *   Displays 3 to 8 hidden answers.
-    *   **Host Action:** Click a hidden card -> Reveals answer + points.
-    *   **Host Action:** Click team strike button (X) -> Toggles strike indicator.
-    *   **Host Action:** Manual Score adjustment (+/-) via footer controls.
-4.  **End Slide:** Displays winner based on manual scores.
+    *   **Layout Logic:** Adapts dynamically to 3-8 answers.
+        *   *3 Answers:* Tall, prominent cards.
+        *   *8 Answers:* High-density grid.
+    *   **Host Action:** Click hidden card -> Reveals answer + points.
+    *   **Host Action:** Click strike button -> Toggles visual indicator.
+    *   **Host Action:** Manual Score (+/-) via footer.
+4.  **End Slide:** Displays winner based on accumulated scores.
 
 ### 4.2. Data Model (`questions.yaml`)
 *   **Transition Item:** `{ type: 'transition', title: string, subtitle?: string }`
 *   **Question Item:** `{ type: 'question', id: number, question: string, answers: Array<{text, percentage}> }`
-*   **Answers:** Sorted by popularity (percentage). Count varies (3-8).
+*   **Answers:** Sorted by popularity. Count varies (3-8).
 
 ## 5. Coding Conventions
-*   **Naming:** PascalCase for Components (`QuestionBoard.tsx`), camelCase for hooks/functions (`useGameLogic.ts`).
-*   **Styling:** Mobile-first Tailwind, but locked to "TV Mode" aspect ratio via `GameContainer`.
-*   **State Management:** `useGameLogic` acts as the central store (Fat Hook pattern).
+*   **Naming:** PascalCase for Components, camelCase for hooks.
+*   **Layout Strategy:**
+    *   **Macro Layout:** Percentage-based relative to the `GameContainer` (16:9 aspect ratio). Avoid `vh` for internal component sizing where possible to ensure containment.
+    *   **Micro Layout:** Use **CSS Container Queries** (`container-type: size` + `cqh` units) for typography within resizing elements (like `AnswerCard`) to ensure text perfectly fits the available height.
+*   **State Management:** `useGameLogic` acts as the central store.
 *   **Type Safety:** Strict TypeScript interfaces imported from `types.ts`.
 
-## 6. Current State & Refactoring Roadmap
+## 6. Roadmap & Status
 
-### 6.1. Identified Debt
-*   **ZOMBIE CODE:** Heavy presence of unused Gemini/AI generation components.
-*   **Hardcoded Fetch:** `useGameLogic` fetches `./questions.yaml` directly. This should be abstracted.
-*   **File Organization:** `components/` is currently a mix of generic and specific.
-*   **Types:** `any` usage in `metadata.json` or loose types in some props.
+### 6.1. Completed Tasks
+*   [x] **Purge:** Removed unused AI generation templates.
+*   [x] **Restructure:** Organized components into `game/`, `layout/`, `slides/`.
+*   [x] **Refine Logic:** `useGameLogic` handles Virtual End state.
+*   [x] **Advanced UI:** Implemented `QuestionBoard` with dynamic gap/height calculation based on answer count (3 vs 8).
+*   [x] **Fluid Typography:** Implemented Container Queries for answer cards.
 
-### 6.2. Phase 2 Refactoring Tasks (To Execute)
-1.  **Purge:** Delete all Gemini/Artifact related files.
-2.  **Restructure:** Move `AnswerCard` and `TeamControl` to `components/game/`.
-3.  **Refine Logic:** Ensure `useGameLogic` handles the "Virtual End" state gracefully.
-4.  **Polish UI:** Ensure the `QuestionBoard` adapts perfectly to 3-8 answers (already started, needs verification).
+### 6.2. Future Enhancements (Phase 3)
+*   **Sound Effects:** Add audio triggers for Correct/Incorrect/Win.
+*   **Keyboard Shortcuts:** Expand host controls (currently 1-8 for reveal, Arrows for nav).
+*   **Animations:** Add "Staggered" entrance for answers on board load.
+*   **Edit Mode:** Potential in-browser editor for `questions.yaml` (Local Storage override).

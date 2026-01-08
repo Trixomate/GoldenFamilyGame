@@ -1,80 +1,74 @@
 
 - type: transition
-  title: "Warm Up"
-  subtitle: "Let's get started"
+  title: "Round 1"
+  subtitle: "Let's start easy!"
 
 - type: question
-  question: "Name a popular fruit"
-  answers:
-    - text: "Apple"
-      percentage: 35
-    - text: "Banana"
-      percentage: 25
-    - text: "Orange"
-      percentage: 15
-    - text: "Strawberry"
-      percentage: 10
-    - text: "Grapes"
-      percentage: 8
-    - text: "Mango"
-      percentage: 5
-    - text: "Pineapple"
-      percentage: 2
-
-- type: question
-  question: "Name a popular vegetable"
-  answers:
-    - text: "Apple"
-      percentage: 35
-    - text: "Banana"
-      percentage: 25
-    - text: "Orange"
-      percentage: 15
-    - text: "Strawberry"
-      percentage: 10
-
-- type: transition
-  title: "Our Team"
-  subtitle: "Time to discover your answers"
-
-- type: question
-  question: "A dirty sock is found in the middle of the living room, whose is it?"
-  answers:
-    - text: "Dad"
-      percentage: 45
-    - text: "Teenager"
-      percentage: 30
-    - text: "Dog"
-      percentage: 15
-    - text: "Mom"
-      percentage: 5
-
-- type: question
-  question: "A clean sock is found in the middle of the living room, whose is it?"
-  answers:
-    - text: "Mom"
-      percentage: 60
-    - text: "Housekeeper"
-      percentage: 20
-    - text: "Ghost"
-      percentage: 10
-
-- type: transition
-  title: "The Big Game"
-  subtitle: "Watch out, 6 possible answers!"
-
-- type: question
-  question: "Name something you find in a handbag"
+  question: "Name something people often lose"
   answers:
     - text: "Keys"
       percentage: 35
     - text: "Phone"
-      percentage: 28
-    - text: "Wallet"
+      percentage: 25
+    - text: "TV Remote"
       percentage: 15
-    - text: "Makeup"
+    - text: "Patience"
       percentage: 10
-    - text: "Tissues"
+
+- type: transition
+  title: "Round 2"
+  subtitle: "Maximum Difficulty"
+
+- type: question
+  question: "Name a popular pizza topping"
+  answers:
+    - text: "Pepperoni"
+      percentage: 28
+    - text: "Extra Cheese"
+      percentage: 20
+    - text: "Mushrooms"
+      percentage: 14
+    - text: "Sausage"
+      percentage: 12
+    - text: "Onions"
+      percentage: 8
+    - text: "Bacon"
       percentage: 7
-    - text: "Perfume"
+    - text: "Peppers"
+      percentage: 6
+    - text: "Pineapple"
       percentage: 5
+
+- type: transition
+  title: "Round 3"
+  subtitle: "The Top Three"
+
+- type: question
+  question: "Name a primary color"
+  answers:
+    - text: "Red"
+      percentage: 45
+    - text: "Blue"
+      percentage: 35
+    - text: "Yellow"
+      percentage: 20
+
+- type: transition
+  title: "Final Round"
+  subtitle: "Double Points!"
+
+- type: question
+  question: "Name something you do right before sleep"
+  answers:
+    - text: "Brush Teeth"
+      percentage: 32
+    - text: "Check Phone"
+      percentage: 28
+    - text: "Put on PJs"
+      percentage: 15
+    - text: "Read a Book"
+      percentage: 10
+    - text: "Set Alarm"
+      percentage: 8
+    - text: "Kiss Goodnight"
+      percentage: 7
