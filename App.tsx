@@ -8,7 +8,6 @@ import { LoadingScreen, ErrorScreen } from './components/ui/StatusScreens';
 import { GameContainer } from './components/layout/GameContainer';
 import { GameHeader } from './components/layout/GameHeader';
 import { GameFooter } from './components/layout/GameFooter';
-import { SetupSlide } from './components/slides/SetupSlide';
 import { IntroSlide } from './components/slides/IntroSlide';
 import { TransitionSlide } from './components/slides/TransitionSlide';
 import { QuestionBoard } from './components/slides/QuestionBoard';
@@ -17,7 +16,6 @@ import { EndSlide } from './components/slides/EndSlide';
 const App: React.FC = () => {
   const { 
     items, 
-    isSetupMode,
     currentIndex, 
     currentItem, 
     revealed, 
@@ -29,16 +27,15 @@ const App: React.FC = () => {
   } = useGameLogic();
 
   if (isLoading) return <LoadingScreen />;
-  // Critical errors (unrecoverable)
-  if (error && !isSetupMode) return <ErrorScreen message={error} />;
+  if (error) return <ErrorScreen message={error} />;
 
   // Type Guards & State Analysis
   const isIntro = currentIndex === -1;
   const isEnd = currentIndex === items.length;
   
   // Safe check for currentItem existence for middle states
-  const isQuestion = !isSetupMode && !isIntro && !isEnd && (currentItem?.type === 'question' || (currentItem && !currentItem.type));
-  const isTransition = !isSetupMode && !isIntro && !isEnd && currentItem?.type === 'transition';
+  const isQuestion = !isIntro && !isEnd && (currentItem?.type === 'question' || (currentItem && !currentItem.type));
+  const isTransition = !isIntro && !isEnd && currentItem?.type === 'transition';
 
   const questionNumber = items
     .slice(0, currentIndex + 1)
@@ -49,8 +46,8 @@ const App: React.FC = () => {
 
   return (
     <GameContainer>
-      {/* Header: Hidden on Setup, Intro and End */}
-      {!isSetupMode && !isIntro && !isEnd && (
+      {/* Header: Hidden on Intro and End */}
+      {!isIntro && !isEnd && (
         <GameHeader 
           currentIndex={currentIndex} 
           // Treat total items as length + 1 so navigation allows reaching the End state
@@ -64,19 +61,11 @@ const App: React.FC = () => {
       {/* Main Game Area */}
       <div className="flex-1 relative overflow-hidden z-10">
         <div className={`w-full h-full relative transition-all duration-500 transform ${isTransitioning ? 'opacity-0 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'}`}>
+          {isIntro && <IntroSlide onStart={actions.handleNext} onDataUpdate={actions.setGameData} />}
           
-          {isSetupMode && <SetupSlide onStart={actions.startGame} />}
+          {isTransition && currentItem && <TransitionSlide item={currentItem as Transition} />}
           
-          {!isSetupMode && isIntro && (
-            <IntroSlide 
-              onStart={actions.handleNext} 
-              onBack={actions.resetToSetup}
-            />
-          )}
-          
-          {!isSetupMode && isTransition && currentItem && <TransitionSlide item={currentItem as Transition} />}
-          
-          {!isSetupMode && isQuestion && currentItem && (
+          {isQuestion && currentItem && (
             <QuestionBoard 
               item={currentItem as Question} 
               revealed={revealed} 
@@ -86,7 +75,7 @@ const App: React.FC = () => {
             />
           )}
           
-          {!isSetupMode && isEnd && (
+          {isEnd && (
             <EndSlide 
               teams={teams} 
               onBack={actions.handlePrev} 
@@ -95,8 +84,8 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      {/* Footer: Hidden on Setup, Intro and End */}
-      {!isSetupMode && !isIntro && !isEnd && <GameFooter teams={teams} />}
+      {/* Footer: Hidden on Intro and End */}
+      {!isIntro && !isEnd && <GameFooter teams={teams} />}
     </GameContainer>
   );
 };
