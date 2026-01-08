@@ -17,13 +17,7 @@ export interface Transition {
   subtitle?: string;
 }
 
-export interface End {
-  type: 'end';
-  title: string;
-  subtitle?: string;
-}
-
-export type GameItem = Question | Transition | End;
+export type GameItem = Question | Transition;
 
 export interface TeamState {
   score: number;

@@ -1,7 +1,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import yaml from 'js-yaml';
-import { GameItem, End } from '../types';
+import { GameItem } from '../types';
 
 export const useGameLogic = () => {
   const [items, setItems] = useState<GameItem[]>([]);
@@ -27,14 +27,7 @@ export const useGameLogic = () => {
         const yamlText = await response.text();
         const data = yaml.load(yamlText) as GameItem[];
         
-        // Hardcode the End slide logic here since it was removed from YAML
-        const endSlide: End = {
-          type: 'end',
-          title: "Terminé",
-          subtitle: "Merci d'avoir joué"
-        };
-
-        setItems([...data, endSlide]);
+        setItems(data);
         setError(null);
       } catch (err) {
         console.error("Failed to load questions:", err);
@@ -53,7 +46,8 @@ export const useGameLogic = () => {
   };
 
   const handleNext = useCallback(() => {
-    if (currentIndex < items.length - 1) {
+    // Allow index to go up to items.length (Virtual End State)
+    if (currentIndex < items.length) {
       setIsTransitioning(true);
       setRevealed(new Array(8).fill(false));
       setTimeout(() => {
@@ -99,7 +93,7 @@ export const useGameLogic = () => {
       if (e.key === 'ArrowRight' || e.key === 'Enter') handleNext();
       if (e.key === 'ArrowLeft') handlePrev();
       
-      const currentItem = currentIndex >= 0 ? items[currentIndex] : null;
+      const currentItem = (currentIndex >= 0 && currentIndex < items.length) ? items[currentIndex] : null;
       if (currentItem && (!currentItem.type || currentItem.type === 'question')) {
          // Key 1-8 for answers (assuming max 8 answers for safety)
          const num = parseInt(e.key);
@@ -115,7 +109,8 @@ export const useGameLogic = () => {
   return {
     items,
     currentIndex,
-    currentItem: currentIndex >= 0 ? items[currentIndex] : null,
+    // currentItem is null if index is out of bounds (Intro or End)
+    currentItem: (currentIndex >= 0 && currentIndex < items.length) ? items[currentIndex] : null,
     revealed,
     isTransitioning,
     isLoading,

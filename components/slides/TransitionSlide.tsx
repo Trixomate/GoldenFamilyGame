@@ -13,7 +13,7 @@ export const TransitionSlide: React.FC<{ item: Transition }> = ({ item }) => (
     </div>
 
     <div className="flex-1 flex flex-col items-center justify-center w-full space-y-[4vh] pb-[10vh]">
-        <h1 className="text-[12vh] font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-300 drop-shadow-[0_0.5vh_2vh_rgba(0,0,0,0.8)] uppercase text-center max-w-[90%] leading-[1.1]">
+        <h1 className="text-[12vh] font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-300 drop-shadow-[0_0.5vh_2vh_rgba(0,0,0,0.8)] uppercase text-center max-w-[90%] leading-[1.1] pb-[1vh] px-[0.2em]">
           {item.title}
         </h1>
 

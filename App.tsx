@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useGameLogic } from './hooks/useGameLogic';
-import { Question, Transition, End } from './types';
+import { Question, Transition } from './types';
 
 // Components
 import { LoadingScreen, ErrorScreen } from './components/StatusScreens';
@@ -31,9 +31,11 @@ const App: React.FC = () => {
 
   // Type Guards & State Analysis
   const isIntro = currentIndex === -1;
-  const isQuestion = currentItem?.type === 'question' || (currentItem && !currentItem.type);
-  const isTransition = currentItem?.type === 'transition';
-  const isEnd = currentItem?.type === 'end';
+  const isEnd = currentIndex === items.length;
+  
+  // Safe check for currentItem existence for middle states
+  const isQuestion = !isIntro && !isEnd && (currentItem?.type === 'question' || (currentItem && !currentItem.type));
+  const isTransition = !isIntro && !isEnd && currentItem?.type === 'transition';
 
   const questionNumber = items
     .slice(0, currentIndex + 1)
@@ -48,7 +50,8 @@ const App: React.FC = () => {
       {!isIntro && !isEnd && (
         <GameHeader 
           currentIndex={currentIndex} 
-          totalItems={items.length} 
+          // Treat total items as length + 1 so navigation allows reaching the End state
+          totalItems={items.length + 1} 
           onPrev={actions.handlePrev} 
           onNext={actions.handleNext}
           showTitle={!isTransition}
@@ -60,9 +63,9 @@ const App: React.FC = () => {
         <div className={`w-full h-full relative transition-all duration-500 transform ${isTransitioning ? 'opacity-0 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'}`}>
           {isIntro && <IntroSlide onStart={actions.handleNext} />}
           
-          {isTransition && <TransitionSlide item={currentItem as Transition} />}
+          {isTransition && currentItem && <TransitionSlide item={currentItem as Transition} />}
           
-          {isQuestion && (
+          {isQuestion && currentItem && (
             <QuestionBoard 
               item={currentItem as Question} 
               revealed={revealed} 
@@ -74,7 +77,6 @@ const App: React.FC = () => {
           
           {isEnd && (
             <EndSlide 
-              item={currentItem as End} 
               teams={teams} 
               onBack={actions.handlePrev} 
             />
