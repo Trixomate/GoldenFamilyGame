@@ -1,9 +1,24 @@
 
 import React from 'react';
-import { ChevronRightIcon } from '@heroicons/react/24/outline';
+import { ChevronRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 
-export const IntroSlide: React.FC<{ onStart: () => void }> = ({ onStart }) => (
+interface IntroSlideProps {
+  onStart: () => void;
+  onBack: () => void;
+}
+
+export const IntroSlide: React.FC<IntroSlideProps> = ({ onStart, onBack }) => (
   <div className="absolute inset-0 flex flex-col items-center w-full h-full z-20 py-[10vh]">
+    
+    {/* Back to Setup Button */}
+    <button 
+      onClick={onBack}
+      className="absolute top-[4vh] left-[4vh] flex items-center space-x-[1vh] text-white/30 hover:text-white/80 transition-colors group"
+    >
+      <ArrowLeftIcon className="w-[3vh] h-[3vh] group-hover:-translate-x-1 transition-transform" />
+      <span className="text-[1.8vh] font-bold tracking-widest uppercase">Setup</span>
+    </button>
+
     {/* 1. Title Section */}
     <div className="flex-1 flex items-end justify-center pb-[5vh]">
        <h1 className="text-[14vh] px-[2vw] font-black tracking-tighter italic leading-none drop-shadow-[0_2vh_4vh_rgba(0,0,0,0.8)] text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400 scale-110">

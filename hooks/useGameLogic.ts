@@ -5,10 +5,14 @@ import { loadQuestions } from '../services/yamlLoader';
 
 export const useGameLogic = () => {
   const [items, setItems] = useState<GameItem[]>([]);
+  
+  // State: 'setup' -> 'intro' (-1) -> 'game' (0..n) -> 'end'
+  const [isSetupMode, setIsSetupMode] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(-1);
+  
   const [revealed, setRevealed] = useState<boolean[]>([false, false, false, false, false, false, false, false]); // Buffer for up to 8 answers
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); // Only used for internal async ops now
   const [error, setError] = useState<string | null>(null);
 
   // Team State
@@ -17,24 +21,23 @@ export const useGameLogic = () => {
   const [strikesA, setStrikesA] = useState([false, false, false]);
   const [strikesB, setStrikesB] = useState([false, false, false]);
 
-  // Load Data via Service
-  useEffect(() => {
-    const initGame = async () => {
-      try {
-        setIsLoading(true);
-        const data = await loadQuestions();
-        setItems(data);
-        setError(null);
-      } catch (err) {
-        setError("Could not load the survey data. Please ensure questions.yaml is available.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    initGame();
+  // Actions
+  const startGame = useCallback((data: GameItem[]) => {
+    setItems(data);
+    setIsSetupMode(false);
+    setCurrentIndex(-1); // Reset to Intro
+    setError(null);
   }, []);
 
-  // Actions
+  const resetToSetup = useCallback(() => {
+    setIsSetupMode(true);
+    setItems([]);
+    setCurrentIndex(-1);
+    setScoreA(0);
+    setScoreB(0);
+    resetStrikes();
+  }, []);
+
   const resetStrikes = () => {
     setStrikesA([false, false, false]);
     setStrikesB([false, false, false]);
@@ -54,7 +57,7 @@ export const useGameLogic = () => {
   }, [currentIndex, items.length]);
 
   const handlePrev = useCallback(() => {
-    if (currentIndex >= 0) {
+    if (currentIndex >= -1) { // Allow going back to intro (-1)
       setIsTransitioning(true);
       setRevealed(new Array(8).fill(false));
       setTimeout(() => {
@@ -84,6 +87,8 @@ export const useGameLogic = () => {
 
   // Keyboard Navigation
   useEffect(() => {
+    if (isSetupMode) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' || e.key === 'Enter') handleNext();
       if (e.key === 'ArrowLeft') handlePrev();
@@ -99,10 +104,11 @@ export const useGameLogic = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentIndex, items, handleNext, handlePrev, toggleReveal]);
+  }, [isSetupMode, currentIndex, items, handleNext, handlePrev, toggleReveal]);
 
   return {
     items,
+    isSetupMode,
     currentIndex,
     // currentItem is null if index is out of bounds (Intro or End)
     currentItem: (currentIndex >= 0 && currentIndex < items.length) ? items[currentIndex] : null,
@@ -110,11 +116,14 @@ export const useGameLogic = () => {
     isTransitioning,
     isLoading,
     error,
+    setError,
     teams: {
       A: { score: scoreA, setScore: setScoreA, strikes: strikesA, toggleStrike: (i: number) => toggleStrike('A', i) },
       B: { score: scoreB, setScore: setScoreB, strikes: strikesB, toggleStrike: (i: number) => toggleStrike('B', i) },
     },
     actions: {
+      startGame,
+      resetToSetup,
       handleNext,
       handlePrev,
       toggleReveal,

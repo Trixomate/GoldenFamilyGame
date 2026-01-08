@@ -31,7 +31,7 @@ export const EndSlide: React.FC<EndSlideProps> = ({ teams, onBack }) => {
       
       {/* 1. Title Top */}
       <div className="flex-none mb-[6vh]">
-        <h1 className="text-[6vh] font-black tracking-tighter italic leading-none drop-shadow-[0_1vh_2vh_rgba(0,0,0,0.8)] text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400 text-center">
+        <h1 className="text-[6vh] px-[2vw] font-black tracking-tighter italic leading-none drop-shadow-[0_1vh_2vh_rgba(0,0,0,0.8)] text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400 text-center">
             <span className="text-yellow-400 drop-shadow-[0_0_2vh_rgba(250,204,21,0.6)]">GOLDEN</span> FAMILY
         </h1>
       </div>
