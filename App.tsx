@@ -88,7 +88,7 @@ const App: React.FC = () => {
             {currentIndex === -1 ? (
               // INTRO SCREEN
               <div className="absolute inset-0 flex flex-col items-center justify-center p-[5%] text-center relative">
-                <div className="z-10 animate-in fade-in zoom-in duration-1000">
+                <div className="z-10">
                   <h1 className="text-[12vh] font-black tracking-tighter italic leading-none mb-[2vh] drop-shadow-[0_2vh_2vh_rgba(0,0,0,0.8)] text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400">
                     une FAMILLE en <span className="text-yellow-400 drop-shadow-[0_0_2vh_rgba(250,204,21,0.5)]">OR</span>
                   </h1>
