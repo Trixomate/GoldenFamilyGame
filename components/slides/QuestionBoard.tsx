@@ -13,34 +13,22 @@ interface QuestionBoardProps {
 
 export const QuestionBoard: React.FC<QuestionBoardProps> = ({ item, revealed, onReveal, boardNumber, totalBoards }) => {
   const answerCount = item.answers?.length || 0;
+  const safeCount = Math.max(1, answerCount);
 
-  // Dynamic layout configuration based on number of answers
-  const getLayoutConfig = (count: number) => {
-    if (count <= 4) {
-      // Spacious layout for few answers (1-4)
-      return {
-        containerPadding: 'py-[4vh]',
-        spacing: 'space-y-[2.5vh]',
-        cardHeight: 'h-[15vh]'
-      };
-    } else if (count <= 6) {
-      // Standard layout for medium answers (5-6)
-      return {
-        containerPadding: 'py-[3vh]',
-        spacing: 'space-y-[1.2vh]',
-        cardHeight: 'h-[8.5vh]'
-      };
-    } else {
-      // Compact layout for many answers (7-8)
-      return {
-        containerPadding: 'py-[2vh]',
-        spacing: 'space-y-[1vh]',
-        cardHeight: 'h-[7vh]'
-      };
-    }
-  };
+  // --- Layout Calculation (Percentage based) ---
+  const DEFAULT_PADDING_PERCENT = 2.5; // Base percentage for gaps
+  const TOPBOTTOM_PADDING_PERCENT = 5; // Base percentage for gaps
+  const USABLE_SPACE = 100 - TOPBOTTOM_PADDING_PERCENT;
+  
+  // 1. Calculate Gap Percentage
+  const gapPercent = DEFAULT_PADDING_PERCENT;
 
-  const layout = getLayoutConfig(answerCount);
+  // 2. Calculate Button Height Percentage
+  const totalGapSpace = Math.max(0, safeCount - 1) * gapPercent;
+  const rawButtonHeight = (USABLE_SPACE - totalGapSpace) / safeCount;
+
+  // Clamp height to aesthetic limits (e.g. max 30% of the screen height for a single button)
+  const buttonHeightPercent = Math.min(rawButtonHeight, 30);
 
   return (
     <div className="absolute inset-0 flex w-full">
@@ -61,8 +49,11 @@ export const QuestionBoard: React.FC<QuestionBoardProps> = ({ item, revealed, on
         </div>
       </div>
 
-      {/* Right: Answer Cards (Dynamic Layout) */}
-      <div className={`w-1/2 px-[5%] ${layout.containerPadding} flex flex-col justify-center ${layout.spacing} bg-black/10 overflow-hidden`}>
+      {/* Right: Answer Cards */}
+      <div 
+        className="w-1/2 px-[5%] h-full flex flex-col justify-center bg-black/10 overflow-hidden"
+        style={{ gap: `${gapPercent}%` }}
+      >
         {item.answers?.map((answer, idx) => (
           <AnswerCard 
             key={idx} 
@@ -70,7 +61,7 @@ export const QuestionBoard: React.FC<QuestionBoardProps> = ({ item, revealed, on
             answer={answer} 
             revealed={revealed[idx]} 
             onReveal={() => onReveal(idx)}
-            heightClass={layout.cardHeight}
+            height={`${buttonHeightPercent}%`}
           />
         ))}
       </div>

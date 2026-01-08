@@ -14,7 +14,7 @@ export const GameFooter: React.FC<GameFooterProps> = ({ teams }) => {
   return (
     <div className="h-[15%] shrink-0 bg-black/60 border-t border-white/10 backdrop-blur-md flex items-center justify-between z-30 relative overflow-hidden">
       <TeamControl 
-        name="Famille A" 
+        name="Family A" 
         score={teams.A.score} 
         setScore={teams.A.setScore} 
         strikes={teams.A.strikes} 
@@ -22,7 +22,7 @@ export const GameFooter: React.FC<GameFooterProps> = ({ teams }) => {
       />
       <div className="w-[1px] h-[60%] bg-gradient-to-b from-transparent via-white/20 to-transparent" />
       <TeamControl 
-        name="Famille B" 
+        name="Family B" 
         score={teams.B.score} 
         setScore={teams.B.setScore} 
         strikes={teams.B.strikes} 

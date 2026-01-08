@@ -8,7 +8,7 @@ export const TransitionSlide: React.FC<{ item: Transition }> = ({ item }) => (
     
     <div className="mt-[10vh] flex-none">
         <div className="text-[2vh] font-mono text-blue-300 tracking-[0.5em] uppercase border px-[2vw] py-[0.5vh] rounded-full border-blue-500/30 bg-blue-900/20 backdrop-blur-sm">
-          Prochain Thème
+          Next Theme
         </div>
     </div>
 

@@ -16,10 +16,10 @@ export const EndSlide: React.FC<EndSlideProps> = ({ teams, onBack }) => {
   let winnerScore = scoreA;
   
   if (scoreA > scoreB) {
-      winnerName = 'Famille A';
+      winnerName = 'Family A';
       winnerScore = scoreA;
   } else if (scoreB > scoreA) {
-      winnerName = 'Famille B';
+      winnerName = 'Family B';
       winnerScore = scoreB;
   }
 
@@ -32,7 +32,7 @@ export const EndSlide: React.FC<EndSlideProps> = ({ teams, onBack }) => {
       {/* 1. Title Top */}
       <div className="flex-none mb-[6vh]">
         <h1 className="text-[6vh] font-black tracking-tighter italic leading-none drop-shadow-[0_1vh_2vh_rgba(0,0,0,0.8)] text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400 text-center">
-            FAMILLE <span className="text-yellow-400 drop-shadow-[0_0_2vh_rgba(250,204,21,0.6)]">OR</span>
+            <span className="text-yellow-400 drop-shadow-[0_0_2vh_rgba(250,204,21,0.6)]">GOLDEN</span> FAMILY
         </h1>
       </div>
 
@@ -41,14 +41,14 @@ export const EndSlide: React.FC<EndSlideProps> = ({ teams, onBack }) => {
           {/* 2. "Vainqueur" Text */}
           <div className="flex flex-col items-center">
              <span className="text-[4vh] font-mono text-yellow-200 tracking-[0.5em] uppercase opacity-90 drop-shadow-[0_0_1vh_rgba(250,204,21,0.4)]">
-                 Vainqueur
+                 Winner
              </span>
           </div>
 
           {isTie ? (
                <div className="flex flex-col items-center">
                    <div className="text-[10vh] font-black italic text-white drop-shadow-[0_0_3vh_rgba(255,255,255,0.4)]">
-                      ÉGALITÉ
+                      TIE
                   </div>
                   <div className="mt-[2vh] text-[4vh] text-zinc-400 font-mono">{scoreA} - {scoreB}</div>
               </div>
@@ -63,7 +63,7 @@ export const EndSlide: React.FC<EndSlideProps> = ({ teams, onBack }) => {
                         drop-shadow-[0_1vh_4vh_rgba(0,0,0,0.8)] 
                         text-transparent bg-clip-text bg-gradient-to-br
                         pb-[1vh] px-[0.2em]
-                        ${winnerName === 'Famille A' ? "from-fuchsia-300 via-pink-500 to-rose-600" : "from-cyan-300 via-sky-400 to-blue-600"}
+                        ${winnerName === 'Family A' ? "from-fuchsia-300 via-pink-500 to-rose-600" : "from-cyan-300 via-sky-400 to-blue-600"}
                     `}>
                         {winnerName}
                     </div>

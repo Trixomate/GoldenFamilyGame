@@ -20,7 +20,7 @@ export const GameHeader: React.FC<GameHeaderProps> = ({ currentIndex, totalItems
           className={`group flex items-center space-x-[1vw] px-[2vw] py-[1.5vh] rounded-[1vh] transition-all duration-300 ${currentIndex === -1 ? 'opacity-0 pointer-events-none' : 'hover:bg-white/10 active:scale-95 border border-white/5'}`}
         >
           <ChevronLeftIcon className="w-[3vh] h-[3vh] transition-transform group-hover:-translate-x-1" />
-          <span className="font-bold tracking-widest text-[1.4vh] uppercase">Précédent</span>
+          <span className="font-bold tracking-widest text-[1.4vh] uppercase">Previous</span>
         </button>
       </div>
 
@@ -40,7 +40,7 @@ export const GameHeader: React.FC<GameHeaderProps> = ({ currentIndex, totalItems
           disabled={currentIndex === totalItems - 1}
           className={`group flex items-center space-x-[1vw] px-[2vw] py-[1.5vh] rounded-[1vh] transition-all duration-300 ${currentIndex === totalItems - 1 ? 'opacity-20 cursor-not-allowed' : 'hover:bg-white/10 active:scale-95 border border-white/5 bg-blue-500/5'}`}
         >
-          <span className="font-bold tracking-widest text-[1.4vh] uppercase">Suivant</span>
+          <span className="font-bold tracking-widest text-[1.4vh] uppercase">Next</span>
           <ChevronRightIcon className="w-[3vh] h-[3vh] transition-transform group-hover:translate-x-1" />
         </button>
       </div>

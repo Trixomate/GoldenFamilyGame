@@ -1,72 +1,80 @@
 
 - type: transition
-  title: "Simple"
-  subtitle: "Pour se chauffer"
+  title: "Warm Up"
+  subtitle: "Let's get started"
 
-- id: 1
-  type: question
-  question: "Petite question ?"
+- type: question
+  question: "Name a popular fruit"
   answers:
-    - text: "Patricia"
-      percentage: 5
-    - text: "Sylviane"
-      percentage: 4
-    - text: "Louise"
-      percentage: 2
-    - text: "Titouan"
-      percentage: 1
-    - text: "David"
-      percentage: 0
-    - text: "David"
-      percentage: 0
-    - text: "David"
-      percentage: 0
-    - text: "David"
-      percentage: 0
-
-- type: transition
-  title: "Notre équipe"
-  subtitle: "C'est maintenant qu'on découvre vos réponses"
-
-- id: 2
-  type: question
-  question: "Une chaussette sale est retrouvée en plein milieu du salon, à qui appartient-elle ?"
-  answers:
-    - text: "Hugo"
-      percentage: 8
-    - text: "Titouan"
-      percentage: 3
-    - text: "Pascal"
-      percentage: 1
-
-- id: 3
-  type: question
-  question: "Une chaussette propre est retrouvée en plein milieu du salon, à qui appartient-elle ?"
-  answers:
-    - text: "Hugo"
-      percentage: 8
-    - text: "Titouan"
-      percentage: 3
-    - text: "Pascal"
-      percentage: 1
-
-- type: transition
-  title: "Le Grand Jeu"
-  subtitle: "Attention, 6 réponses possibles !"
-
-- id: 4
-  type: question
-  question: "Citez quelque chose que l'on trouve dans un sac à main"
-  answers:
-    - text: "Clés"
+    - text: "Apple"
       percentage: 35
-    - text: "Téléphone"
-      percentage: 28
-    - text: "Portefeuille"
+    - text: "Banana"
+      percentage: 25
+    - text: "Orange"
       percentage: 15
-    - text: "Maquillage"
+    - text: "Strawberry"
       percentage: 10
-    - text: "Mouchoirs"
+    - text: "Grapes"
+      percentage: 8
+    - text: "Mango"
+      percentage: 5
+    - text: "Pineapple"
+      percentage: 2
+
+- type: question
+  question: "Name a popular vegetable"
+  answers:
+    - text: "Apple"
+      percentage: 35
+    - text: "Banana"
+      percentage: 25
+    - text: "Orange"
+      percentage: 15
+    - text: "Strawberry"
+      percentage: 10
+
+- type: transition
+  title: "Our Team"
+  subtitle: "Time to discover your answers"
+
+- type: question
+  question: "A dirty sock is found in the middle of the living room, whose is it?"
+  answers:
+    - text: "Dad"
+      percentage: 45
+    - text: "Teenager"
+      percentage: 30
+    - text: "Dog"
+      percentage: 15
+    - text: "Mom"
+      percentage: 5
+
+- type: question
+  question: "A clean sock is found in the middle of the living room, whose is it?"
+  answers:
+    - text: "Mom"
+      percentage: 60
+    - text: "Housekeeper"
+      percentage: 20
+    - text: "Ghost"
+      percentage: 10
+
+- type: transition
+  title: "The Big Game"
+  subtitle: "Watch out, 6 possible answers!"
+
+- type: question
+  question: "Name something you find in a handbag"
+  answers:
+    - text: "Keys"
+      percentage: 35
+    - text: "Phone"
+      percentage: 28
+    - text: "Wallet"
+      percentage: 15
+    - text: "Makeup"
+      percentage: 10
+    - text: "Tissues"
       percentage: 7
-    - text: "Parfum"
+    - text: "Perfume"
       percentage: 5

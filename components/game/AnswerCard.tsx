@@ -7,7 +7,7 @@ interface AnswerCardProps {
   answer: Answer;
   revealed: boolean;
   onReveal: () => void;
-  heightClass?: string;
+  height: string; // Percentage string (e.g. "20%")
 }
 
 interface CardStyle {
@@ -22,7 +22,6 @@ interface CardStyle {
 
 /**
  * Configuration dictionary for card styles based on rank (index).
- * Contains specific styles for top 3 ranks and a default fallback.
  */
 const CARD_STYLES: { [key: number]: CardStyle; default: CardStyle } = {
   0: { // Rank 1 (Gold/Amber)
@@ -64,38 +63,50 @@ const CARD_STYLES: { [key: number]: CardStyle; default: CardStyle } = {
 };
 
 /**
- * Renders a single answer card that flips when revealed.
+ * Renders a single answer card.
+ * Uses Container Queries (cqh) for font sizing to perfectly adapt to the card's calculated height.
  */
-export const AnswerCard: React.FC<AnswerCardProps> = ({ index, answer, revealed, onReveal, heightClass = "h-[15vh]" }) => {
-  // Select style based on index, fallback to default if index not explicitly defined
+export const AnswerCard: React.FC<AnswerCardProps> = ({ index, answer, revealed, onReveal, height }) => {
   const style = CARD_STYLES[index] || CARD_STYLES.default;
 
   return (
-    <div className={`relative ${heightClass} perspective-1000 group shrink-0`}>
+    <div 
+      className="relative perspective-1000 group shrink-0 w-full" 
+      style={{ height, containerType: 'size' }}
+    >
       {/* Front of Card (Hidden Answer) */}
       <button 
         onClick={onReveal} 
         className={`absolute inset-0 w-full h-full flex items-center justify-between px-[3vw] rounded-[1.5vh] border-[0.3vh] transition-all duration-700 transform-gpu cursor-pointer shadow-xl shadow-black/60 bg-gradient-to-b ${style.gradient} ${style.border} ${style.shadow} ${revealed ? 'rotate-x-180 opacity-0 pointer-events-none scale-90' : 'hover:-translate-y-1 active:scale-95'}`}
       >
         <div className="flex items-center space-x-[2vw]">
-          <span className={`text-[5vh] font-black italic transition-all drop-shadow-md ${style.numText} group-hover:text-white`}>
+          <span 
+            className={`font-black italic transition-all drop-shadow-md ${style.numText} group-hover:text-white`}
+            style={{ fontSize: '42cqh' }}
+          >
             {index + 1}
           </span>
           <div className="w-[4vw] h-[0.5vh] bg-white/30 rounded-full group-hover:bg-white/50 transition-colors" />
         </div>
-        <div className="w-[6vh] h-[6vh] rounded-full border-[0.3vh] border-white/50 flex items-center justify-center bg-white/15 shadow-[inset_0_0_1vh_rgba(255,255,255,0.1)]">
-          <div className="w-[2vh] h-[2vh] rounded-full bg-white shadow-[0_0_1.5vh_rgba(255,255,255,0.9)] animate-pulse" />
+        <div className="aspect-square h-[60%] rounded-full border-[0.3vh] border-white/50 flex items-center justify-center bg-white/15 shadow-[inset_0_0_1vh_rgba(255,255,255,0.1)]">
+          <div className="w-[30%] h-[30%] rounded-full bg-white shadow-[0_0_1.5vh_rgba(255,255,255,0.9)] animate-pulse" />
         </div>
       </button>
 
       {/* Back of Card (Revealed Answer) */}
       <div className={`absolute inset-0 w-full h-full flex items-center justify-between bg-gradient-to-r ${style.revealedGradient} rounded-[1.5vh] border-[0.5vh] ${style.revealedBorder} shadow-2xl transition-all duration-700 transform-gpu backface-hidden overflow-hidden ${revealed ? 'rotate-x-0 opacity-100 scale-100' : 'rotate-x-[-110deg] opacity-0 scale-75'}`}>
         <div className="absolute inset-0 opacity-15 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #000 1.2px, transparent 1.2px)', backgroundSize: '12px 12px' }} />
-        <span className={`relative z-10 pl-[3vw] text-[4vh] font-black ${style.textColor} uppercase tracking-tighter drop-shadow-sm truncate pr-2 flex-1`}>
+        <span 
+          className={`relative z-10 pl-[3vw] font-black ${style.textColor} uppercase tracking-tighter drop-shadow-sm truncate pr-2 flex-1`}
+          style={{ fontSize: '32cqh', lineHeight: '1.1' }}
+        >
           {answer.text}
         </span>
-        <div className="relative z-10 h-full w-[14vh] flex items-center justify-center bg-black/15 border-l-[0.3vh] border-white/30 shrink-0">
-          <span className="text-[6vh] font-black text-white drop-shadow-[0_0.5vh_1vh_rgba(0,0,0,0.6)]">
+        <div className="relative z-10 h-full aspect-[1.3/1] flex items-center justify-center bg-black/15 border-l-[0.3vh] border-white/30 shrink-0">
+          <span 
+            className="font-black text-white drop-shadow-[0_0.5vh_1vh_rgba(0,0,0,0.6)]"
+            style={{ fontSize: '42cqh' }}
+          >
             {answer.percentage}
           </span>
         </div>

@@ -6,7 +6,6 @@ export interface Answer {
 
 export interface Question {
   type?: 'question';
-  id?: number;
   question: string;
   answers: Answer[];
 }
