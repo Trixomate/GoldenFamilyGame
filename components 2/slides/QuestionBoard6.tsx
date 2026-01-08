@@ -31,7 +31,7 @@ export const QuestionBoard6: React.FC<QuestionBoardProps> = ({ item, revealed, o
     </div>
 
     {/* Right: Answer Cards (6 Smaller Cards) */}
-    <div className="w-1/2 px-[5%] py-[2%] flex flex-col justify-center space-y-[1.5vh] bg-black/10 overflow-hidden">
+    <div className="w-1/2 px-[5%] py-[3vh] flex flex-col justify-center space-y-[1.2vh] bg-black/10 overflow-hidden">
       {item.answers?.map((answer, idx) => (
         <AnswerCard 
           key={idx} 
@@ -39,7 +39,7 @@ export const QuestionBoard6: React.FC<QuestionBoardProps> = ({ item, revealed, o
           answer={answer} 
           revealed={revealed[idx]} 
           onReveal={() => onReveal(idx)}
-          heightClass="h-[9vh]" // Smaller height for 6 items
+          heightClass="h-[8.5vh]" // Reduced height to fit 6 items comfortably
         />
       ))}
     </div>
