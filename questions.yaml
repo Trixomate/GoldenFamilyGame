@@ -1,6 +1,6 @@
 
 - id: 1
-  question: "Une chaussette sale est retrouvée en plein milieu du salon, à qui appartient-elle ? "
+  question: "Une chaussette sale est retrouvée en plein milieu du salon, à qui appartient-elle ?"
   answers:
     - text: "Hugo"
       percentage: 8
@@ -8,3 +8,13 @@
       percentage: 3
     - text: "Pascal"
       percentage: 1
+
+- id: 2
+  question: "Un concours de cuisine est organisé. quelle personne a le plus de chance de gagner ?"
+  answers:
+    - text: "Patricia"
+      percentage: 5
+    - text: "Sylviane"
+      percentage: 4
+    - text: "Louise"
+      percentage: 2

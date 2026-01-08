@@ -28,24 +28,60 @@ const TeamControl: React.FC<{
     </div>
   );
 
-  const ScoreDisplay = () => (
-    <div className="flex flex-col items-center justify-center h-full py-[1vh]">
-      <span className="text-[2vh] font-black text-blue-400 uppercase tracking-[0.2em] mb-[0.5vh] drop-shadow-[0_0_1.5vh_rgba(59,130,246,0.5)]">{name}</span>
-      <div className="flex items-center space-x-[1vw] bg-zinc-900/90 rounded-[1.5vh] border border-white/10 p-[0.6vh] shadow-2xl">
-        <button onClick={() => setScore(s => Math.max(0, s - 1))} className="p-[0.5vh] hover:bg-white/10 rounded-[1vh] text-zinc-400 hover:text-white transition-all active:scale-90">
-          <MinusIcon className="w-[2.5vh] h-[2.5vh]" />
-        </button>
-        <span className="text-[5vh] font-black text-white w-[8vh] text-center tracking-tighter drop-shadow-[0_0_2vh_rgba(255,255,255,0.3)] leading-none">{score}</span>
-        <button onClick={() => setScore(s => s + 1)} className="p-[0.5vh] hover:bg-white/10 rounded-[1vh] text-zinc-400 hover:text-white transition-all active:scale-90">
-          <PlusIcon className="w-[2.5vh] h-[2.5vh]" />
-        </button>
-      </div>
+  const ScoreControls = () => (
+    <div className="flex items-center space-x-[1vw] bg-zinc-900/90 rounded-[1.5vh] border border-white/10 p-[0.6vh] shadow-2xl">
+      <button onClick={() => setScore(s => Math.max(0, s - 1))} className="p-[0.5vh] hover:bg-white/10 rounded-[1vh] text-zinc-400 hover:text-white transition-all active:scale-90">
+        <MinusIcon className="w-[2.5vh] h-[2.5vh]" />
+      </button>
+      <span className="text-[5vh] font-black text-white w-[8vh] text-center tracking-tighter drop-shadow-[0_0_2vh_rgba(255,255,255,0.3)] leading-none">{score}</span>
+      <button onClick={() => setScore(s => s + 1)} className="p-[0.5vh] hover:bg-white/10 rounded-[1vh] text-zinc-400 hover:text-white transition-all active:scale-90">
+        <PlusIcon className="w-[2.5vh] h-[2.5vh]" />
+      </button>
     </div>
   );
 
+  const TeamName = () => {
+    // Theme colors: Bright Pink/Fuchsia for Team A, Cyan/Blue for Team B
+    const gradientClass = reverse 
+      ? "from-cyan-300 via-sky-400 to-blue-500 drop-shadow-[0_0_1.5vh_rgba(6,182,212,0.6)]"
+      : "from-fuchsia-300 via-pink-500 to-rose-500 drop-shadow-[0_0_1.5vh_rgba(236,72,153,0.6)]";
+      
+    return (
+      <span className={`text-[3vh] font-black text-transparent bg-clip-text bg-gradient-to-r ${gradientClass} uppercase tracking-[0.2em] px-[1vw] whitespace-nowrap`}>
+        {name}
+      </span>
+    );
+  };
+
   return (
-    <div className="flex-1 flex items-center justify-center space-x-[2vw] px-[2%] h-full">
-      {reverse ? <><StrikesDisplay /><ScoreDisplay /></> : <><ScoreDisplay /><StrikesDisplay /></>}
+    <div className="flex-1 flex items-center h-full px-[2vw]">
+      {reverse ? (
+        // Right Side (Team B): Inner(Strikes) | Center(Score) | Outer(Name)
+        <>
+          <div className="flex-1 flex justify-start items-center">
+            <StrikesDisplay />
+          </div>
+          <div className="flex-none mx-[1vw]">
+            <ScoreControls />
+          </div>
+          <div className="flex-1 flex justify-end items-center">
+            <TeamName />
+          </div>
+        </>
+      ) : (
+        // Left Side (Team A): Outer(Name) | Center(Score) | Inner(Strikes)
+        <>
+          <div className="flex-1 flex justify-start items-center">
+            <TeamName />
+          </div>
+          <div className="flex-none mx-[1vw]">
+            <ScoreControls />
+          </div>
+          <div className="flex-1 flex justify-end items-center">
+            <StrikesDisplay />
+          </div>
+        </>
+      )}
     </div>
   );
 };
@@ -59,10 +95,42 @@ const AnswerCard: React.FC<{
 }> = ({ index, answer, revealed, onReveal }) => {
   const getStyles = (idx: number) => {
     switch (idx) {
-      case 0: return { gradient: 'from-amber-700 via-amber-800 to-[#3d2500]', border: 'border-yellow-400/70', shadow: 'hover:shadow-[0_0_4vh_rgba(251,191,36,0.35)]', numText: 'text-white/95', revealedGradient: 'from-yellow-400 via-yellow-500 to-amber-600', revealedBorder: 'border-yellow-300', textColor: 'text-amber-950' };
-      case 1: return { gradient: 'from-slate-600 via-slate-700 to-[#2c3e50]', border: 'border-slate-100/70', shadow: 'hover:shadow-[0_0_4vh_rgba(226,232,240,0.35)]', numText: 'text-white/95', revealedGradient: 'from-white via-slate-200 to-slate-400', revealedBorder: 'border-white', textColor: 'text-slate-900' };
-      case 2: return { gradient: 'from-[#8b4513] via-[#632a0d] to-[#3d1a08]', border: 'border-orange-400/70', shadow: 'hover:shadow-[0_0_4vh_rgba(234,88,12,0.35)]', numText: 'text-white/95', revealedGradient: 'from-orange-400 via-orange-500 to-orange-700', revealedBorder: 'border-orange-300', textColor: 'text-orange-950' };
-      default: return { gradient: 'from-blue-800 via-blue-900 to-black', border: 'border-blue-400/70', shadow: 'hover:shadow-[0_0_3vh_rgba(59,130,246,0.25)]', numText: 'text-white/95', revealedGradient: 'from-blue-400 via-blue-500 to-blue-600', revealedBorder: 'border-blue-300', textColor: 'text-blue-950' };
+      case 0: return { 
+        gradient: 'from-yellow-600 via-amber-600 to-amber-800', 
+        border: 'border-yellow-400/70', 
+        shadow: 'hover:shadow-[0_0_4vh_rgba(251,191,36,0.35)]', 
+        numText: 'text-white/95', 
+        revealedGradient: 'from-yellow-400 via-yellow-500 to-amber-600', 
+        revealedBorder: 'border-yellow-300', 
+        textColor: 'text-amber-950' 
+      };
+      case 1: return { 
+        gradient: 'from-slate-400 via-slate-500 to-slate-700', 
+        border: 'border-slate-100/70', 
+        shadow: 'hover:shadow-[0_0_4vh_rgba(226,232,240,0.35)]', 
+        numText: 'text-white/95', 
+        revealedGradient: 'from-white via-slate-200 to-slate-400', 
+        revealedBorder: 'border-white', 
+        textColor: 'text-slate-900' 
+      };
+      case 2: return { 
+        gradient: 'from-orange-600 via-orange-700 to-orange-900', 
+        border: 'border-orange-400/70', 
+        shadow: 'hover:shadow-[0_0_4vh_rgba(234,88,12,0.35)]', 
+        numText: 'text-white/95', 
+        revealedGradient: 'from-orange-400 via-orange-500 to-orange-700', 
+        revealedBorder: 'border-orange-300', 
+        textColor: 'text-orange-950' 
+      };
+      default: return { 
+        gradient: 'from-blue-600 via-blue-700 to-blue-900', 
+        border: 'border-blue-400/70', 
+        shadow: 'hover:shadow-[0_0_3vh_rgba(59,130,246,0.25)]', 
+        numText: 'text-white/95', 
+        revealedGradient: 'from-blue-400 via-blue-500 to-blue-600', 
+        revealedBorder: 'border-blue-300', 
+        textColor: 'text-blue-950' 
+      };
     }
   };
   const s = getStyles(index);
@@ -228,8 +296,8 @@ const App: React.FC = () => {
           <div className="flex flex-col items-center">
              {currentIndex >= 0 ? (
                <div className="flex items-center justify-center space-x-[1vw]">
-                  <h2 className="text-[5vh] font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400 drop-shadow-[0_0.5vh_1.5vh_rgba(59,130,246,0.3)] uppercase">
-                    FAMILLE en <span className="text-yellow-400 drop-shadow-[0_0_1.5vh_rgba(250,204,21,0.5)]">OR</span>
+                  <h2 className="text-[5vh] font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400 drop-shadow-[0_0.5vh_1.5vh_rgba(59,130,246,0.3)]">
+                    une FAMILLE en <span className="text-yellow-400 drop-shadow-[0_0_1.5vh_rgba(250,204,21,0.5)]">OR</span>
                   </h2>
                </div>
              ) : (
@@ -257,8 +325,8 @@ const App: React.FC = () => {
             {currentIndex === -1 ? (
               <div className="absolute inset-0 flex flex-col items-center justify-center p-[5%] text-center relative">
                 <div className="z-10 animate-in fade-in zoom-in duration-1000">
-                  <h1 className="text-[12vh] font-black tracking-tighter italic leading-none mb-[2vh] drop-shadow-[0_2vh_2vh_rgba(0,0,0,0.8)] text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400 uppercase">
-                    FAMILLE en <span className="text-yellow-400 drop-shadow-[0_0_2vh_rgba(250,204,21,0.5)]">OR</span>
+                  <h1 className="text-[12vh] font-black tracking-tighter italic leading-none mb-[2vh] drop-shadow-[0_2vh_2vh_rgba(0,0,0,0.8)] text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400">
+                    une FAMILLE en <span className="text-yellow-400 drop-shadow-[0_0_2vh_rgba(250,204,21,0.5)]">OR</span>
                   </h1>
                   <p className="text-[3vh] text-zinc-400 font-light max-w-[80%] mx-auto mb-[6vh] tracking-wide">
                     Bienvenue au défi ultime des sondages. <br/>
@@ -267,7 +335,7 @@ const App: React.FC = () => {
                   <button onClick={handleNext} className="group relative inline-flex items-center justify-center px-[6vw] py-[3vh] font-black text-[3vh] tracking-[0.2em] uppercase bg-gradient-to-r from-blue-600 to-blue-400 rounded-[2vh] shadow-2xl hover:shadow-blue-500/20 hover:scale-105 active:scale-95 transition-all duration-300 overflow-hidden">
                     <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
                     <span className="relative z-10">Commencer</span>
-                    <ChevronRightIcon className="relative z-10 w-[3vh] h-[3vh] ml-[1vw] transition-transform group-hover:translate-x-2" />
+                    <ChevronRightIcon className="relative z-10 w-[3vh] h-[3vh] ml-[1vw] transition-transform group-hover:translate-x-1" />
                   </button>
                 </div>
               </div>
