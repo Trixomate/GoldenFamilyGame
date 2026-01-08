@@ -25,7 +25,7 @@ export const parseYamlContent = (content: string): GameItem[] => {
  */
 export const loadQuestions = async (path: string = './questions.yaml'): Promise<GameItem[]> => {
   try {
-    const response = await fetch(path);
+    const response = await fetch(import.meta.env.BASE_URL + 'questions.yaml');
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
