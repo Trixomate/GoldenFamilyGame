@@ -228,7 +228,7 @@ const App: React.FC = () => {
           <div className="flex flex-col items-center">
              {currentIndex >= 0 ? (
                <div className="flex items-center justify-center space-x-[1vw]">
-                  <h2 className="text-[5vh] font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400 drop-shadow-[0_0.5vh_1.5vh_rgba(59,130,246,0.3)]">
+                  <h2 className="text-[5vh] font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400 drop-shadow-[0_0.5vh_1.5vh_rgba(59,130,246,0.3)] uppercase">
                     FAMILLE en <span className="text-yellow-400 drop-shadow-[0_0_1.5vh_rgba(250,204,21,0.5)]">OR</span>
                   </h2>
                </div>
@@ -253,17 +253,16 @@ const App: React.FC = () => {
 
         {/* GAME AREA */}
         <div className="flex-1 relative overflow-hidden z-10">
-          <div className={`w-full h-full relative`}>
+          <div className={`w-full h-full relative transition-all duration-500 transform ${isTransitioning ? 'opacity-0 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'}`}>
             {currentIndex === -1 ? (
               <div className="absolute inset-0 flex flex-col items-center justify-center p-[5%] text-center relative">
-                <div className="absolute inset-0"></div>
-                <div className="z-10">
-                  <h1 className="text-[12vh] font-black tracking-tighter italic leading-none mb-[2vh] drop-shadow-[0_2vh_2vh_rgba(0,0,0,0.8)] text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400">
+                <div className="z-10 animate-in fade-in zoom-in duration-1000">
+                  <h1 className="text-[12vh] font-black tracking-tighter italic leading-none mb-[2vh] drop-shadow-[0_2vh_2vh_rgba(0,0,0,0.8)] text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400 uppercase">
                     FAMILLE en <span className="text-yellow-400 drop-shadow-[0_0_2vh_rgba(250,204,21,0.5)]">OR</span>
                   </h1>
-                  <p className="text-[4vh] text-zinc-400 font-light max-w-[100%] mx-auto mb-[6vh] tracking-wide">
+                  <p className="text-[3vh] text-zinc-400 font-light max-w-[80%] mx-auto mb-[6vh] tracking-wide">
                     Bienvenue au défi ultime des sondages. <br/>
-                    Votre famille sait-elle ce que le <span className="text-white font-bold">monde</span> pense ?
+                    Votre famille sait-elle ce que le <span className="text-white font-bold italic">monde</span> pense ?
                   </p>
                   <button onClick={handleNext} className="group relative inline-flex items-center justify-center px-[6vw] py-[3vh] font-black text-[3vh] tracking-[0.2em] uppercase bg-gradient-to-r from-blue-600 to-blue-400 rounded-[2vh] shadow-2xl hover:shadow-blue-500/20 hover:scale-105 active:scale-95 transition-all duration-300 overflow-hidden">
                     <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
@@ -288,7 +287,7 @@ const App: React.FC = () => {
                 </div>
 
                 {/* Right: Answers */}
-                <div className="w-1/2 p-[5%] flex flex-col justify-center space-y-[2.5vh] bg-black/10 overflow-y-auto">
+                <div className="w-1/2 p-[5%] flex flex-col justify-center space-y-[2.5vh] bg-black/10 overflow-hidden">
                   {currentQuestion?.answers.map((answer, idx) => (
                     <AnswerCard key={idx} index={idx} answer={answer} revealed={revealed[idx]} onReveal={() => toggleReveal(idx)} />
                   ))}
