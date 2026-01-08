@@ -43,65 +43,72 @@ const App: React.FC = () => {
         style={{ width: '95vw', height: 'calc(95vw * 9 / 16)', maxHeight: '95vh', maxWidth: 'calc(95vh * 16 / 9)' }}
       >
         
-        {/* --- HEADER --- */}
-        <div className="h-[15%] shrink-0 flex items-center justify-between px-[5%] bg-black/40 backdrop-blur-2xl border-b border-white/10 z-30 relative">
-          <div className="w-[20%] flex justify-start">
-            <button 
-              onClick={actions.handlePrev}
-              disabled={currentIndex === -1}
-              className={`group flex items-center space-x-[1vw] px-[2vw] py-[1.5vh] rounded-[1vh] transition-all duration-300 ${currentIndex === -1 ? 'opacity-0 pointer-events-none' : 'hover:bg-white/10 active:scale-95 border border-white/5'}`}
-            >
-              <ChevronLeftIcon className="w-[3vh] h-[3vh] transition-transform group-hover:-translate-x-1" />
-              <span className="font-bold tracking-widest text-[1.4vh] uppercase">Précédent</span>
-            </button>
-          </div>
-
-          <div className="flex flex-col items-center">
-             {currentIndex >= 0 ? (
-               <div className="flex items-center justify-center space-x-[1vw]">
-                  <h2 className="text-[5vh] font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400 drop-shadow-[0_0.5vh_1.5vh_rgba(59,130,246,0.3)]">
-                    une FAMILLE en <span className="text-yellow-400 drop-shadow-[0_0_1.5vh_rgba(250,204,21,0.5)]">OR</span>
-                  </h2>
-               </div>
-             ) : (
-               <div className="w-44 h-8" />
-             )}
-          </div>
-
-          <div className="w-[20%] flex justify-end">
-            {currentIndex >= 0 && (
+        {/* --- HEADER (Hidden on Intro) --- */}
+        {currentIndex >= 0 && (
+          <div className="h-[15%] shrink-0 flex items-center justify-between px-[5%] bg-black/40 backdrop-blur-2xl border-b border-white/10 z-30 relative">
+            <div className="w-[20%] flex justify-start">
               <button 
-                onClick={actions.handleNext}
-                disabled={currentIndex === questions.length - 1}
-                className={`group flex items-center space-x-[1vw] px-[2vw] py-[1.5vh] rounded-[1vh] transition-all duration-300 ${currentIndex === questions.length - 1 ? 'opacity-20 cursor-not-allowed' : 'hover:bg-white/10 active:scale-95 border border-white/5 bg-blue-500/5'}`}
+                onClick={actions.handlePrev}
+                disabled={currentIndex === -1}
+                className={`group flex items-center space-x-[1vw] px-[2vw] py-[1.5vh] rounded-[1vh] transition-all duration-300 ${currentIndex === -1 ? 'opacity-0 pointer-events-none' : 'hover:bg-white/10 active:scale-95 border border-white/5'}`}
               >
-                <span className="font-bold tracking-widest text-[1.4vh] uppercase">Suivant</span>
-                <ChevronRightIcon className="w-[3vh] h-[3vh] transition-transform group-hover:translate-x-1" />
+                <ChevronLeftIcon className="w-[3vh] h-[3vh] transition-transform group-hover:-translate-x-1" />
+                <span className="font-bold tracking-widest text-[1.4vh] uppercase">Précédent</span>
               </button>
-            )}
+            </div>
+
+            <div className="flex flex-col items-center">
+                 <div className="flex items-center justify-center space-x-[1vw]">
+                    <h2 className="text-[5vh] font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400 drop-shadow-[0_0.5vh_1.5vh_rgba(59,130,246,0.3)]">
+                      une FAMILLE en <span className="text-yellow-400 drop-shadow-[0_0_1.5vh_rgba(250,204,21,0.5)]">OR</span>
+                    </h2>
+                 </div>
+            </div>
+
+            <div className="w-[20%] flex justify-end">
+                <button 
+                  onClick={actions.handleNext}
+                  disabled={currentIndex === questions.length - 1}
+                  className={`group flex items-center space-x-[1vw] px-[2vw] py-[1.5vh] rounded-[1vh] transition-all duration-300 ${currentIndex === questions.length - 1 ? 'opacity-20 cursor-not-allowed' : 'hover:bg-white/10 active:scale-95 border border-white/5 bg-blue-500/5'}`}
+                >
+                  <span className="font-bold tracking-widest text-[1.4vh] uppercase">Suivant</span>
+                  <ChevronRightIcon className="w-[3vh] h-[3vh] transition-transform group-hover:translate-x-1" />
+                </button>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* --- GAME AREA --- */}
         <div className="flex-1 relative overflow-hidden z-10">
           <div className={`w-full h-full relative transition-all duration-500 transform ${isTransitioning ? 'opacity-0 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'}`}>
             {currentIndex === -1 ? (
               // INTRO SCREEN
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-[5%] text-center relative">
-                <div className="z-10">
-                  <h1 className="text-[12vh] font-black tracking-tighter italic leading-none mb-[2vh] drop-shadow-[0_2vh_2vh_rgba(0,0,0,0.8)] text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400">
-                    une FAMILLE en <span className="text-yellow-400 drop-shadow-[0_0_2vh_rgba(250,204,21,0.5)]">OR</span>
+              <div className="absolute inset-0 flex flex-col items-center w-full h-full z-20 py-[10vh]">
+                
+                {/* 1. Title Section (Top Third) */}
+                <div className="flex-1 flex items-end justify-center pb-[5vh]">
+                   <h1 className="text-[14vh] font-black tracking-tighter italic leading-none drop-shadow-[0_2vh_4vh_rgba(0,0,0,0.8)] text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-blue-400 scale-110">
+                    une FAMILLE en <span className="text-yellow-400 drop-shadow-[0_0_3vh_rgba(250,204,21,0.6)]">OR</span>
                   </h1>
-                  <p className="text-[3vh] text-zinc-400 font-light max-w-[80%] mx-auto mb-[6vh] tracking-wide">
+                </div>
+
+                {/* 2. Description (Middle) */}
+                <div className="flex-none py-[5vh] px-[10%]">
+                  <p className="text-[3.5vh] text-zinc-300 font-light text-center leading-relaxed tracking-wide drop-shadow-lg">
                     Bienvenue au défi ultime des sondages. <br/>
                     Votre famille sait-elle ce que le <span className="text-white font-bold italic">monde</span> pense ?
                   </p>
-                  <button onClick={actions.handleNext} className="group relative inline-flex items-center justify-center px-[6vw] py-[3vh] font-black text-[3vh] tracking-[0.2em] uppercase bg-gradient-to-r from-blue-600 to-blue-400 rounded-[2vh] shadow-2xl hover:shadow-blue-500/20 hover:scale-105 active:scale-95 transition-all duration-300 overflow-hidden">
+                </div>
+
+                {/* 3. Button (Bottom Third) */}
+                <div className="flex-1 flex items-start justify-center pt-[5vh]">
+                  <button onClick={actions.handleNext} className="group relative inline-flex items-center justify-center px-[8vw] py-[4vh] font-black text-[3.5vh] tracking-[0.25em] uppercase bg-gradient-to-r from-blue-600 to-blue-400 rounded-[2.5vh] shadow-[0_1vh_4vh_rgba(37,99,235,0.4)] hover:shadow-blue-500/60 hover:scale-105 active:scale-95 transition-all duration-300 overflow-hidden ring-1 ring-white/20">
                     <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                    <span className="relative z-10">Commencer</span>
-                    <ChevronRightIcon className="relative z-10 w-[3vh] h-[3vh] ml-[1vw] transition-transform group-hover:translate-x-1" />
+                    <span className="relative z-10 drop-shadow-md">Commencer</span>
+                    <ChevronRightIcon className="relative z-10 w-[4vh] h-[4vh] ml-[1.5vw] transition-transform group-hover:translate-x-1 stroke-[3]" />
                   </button>
                 </div>
+
               </div>
             ) : (
               // QUESTION BOARD
