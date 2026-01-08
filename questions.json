@@ -20,7 +20,7 @@
   },
   {
     "id": 3,
-    "question": "Name a popular pizza topping.",
+    "question": "Nommez une garniture de pizza populaire.",
     "answers": [
       { "text": "Pepperoni", "percentage": 65 },
       { "text": "Mushrooms", "percentage": 15 },
