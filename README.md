@@ -21,7 +21,7 @@ The game is deployed on GitHub Pages and can be accessed here:
    - **Team Scores**: Click on the score display to edit team names or manually adjust points.
    - **Navigation**: Use the controls to move between questions.
 
-## 📝 Custom Questions (YAML)
+## ⚙️ Custom Questions (YAML)
 
 You can play with your own custom questions by creating a YAML file and loading it into the game.
 
